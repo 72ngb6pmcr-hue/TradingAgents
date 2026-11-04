@@ -48,6 +48,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--ticker", required=True, help="Yahoo ticker, e.g. NVDA")
     parser.add_argument("--date", required=True, help="Analysis date YYYY-MM-DD (completed trading session)")
     parser.add_argument("--output-dir", type=Path, default=Path("raporty"))
+    parser.add_argument("--max-output-tokens", type=int, default=None,
+                        help="Override output token cap (1024-8192) for long research runs")
     args = parser.parse_args(argv)
 
     from dotenv import load_dotenv
@@ -62,7 +64,11 @@ def main(argv: list[str] | None = None) -> int:
     config["max_tool_rounds"] = min(config["max_tool_rounds"], 2)
     config["max_debate_rounds"] = min(config["max_debate_rounds"], 1)
     config["max_risk_discuss_rounds"] = min(config["max_risk_discuss_rounds"], 1)
-    if config.get("max_tokens") is None:
+    if args.max_output_tokens is not None:
+        if not 1024 <= args.max_output_tokens <= 8192:
+            parser.error("--max-output-tokens must be 1024..8192")
+        config["max_tokens"] = args.max_output_tokens
+    elif config.get("max_tokens") is None:
         config["max_tokens"] = 2000
     if config.get("llm_max_retries") is None:
         config["llm_max_retries"] = 0
