@@ -15,6 +15,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from tradingagents.agents.decision_audit import audit_decision
+
 ANALYSTS = ("market", "social", "news", "fundamentals")
 STATE_FIELDS = (
     "company_of_interest", "trade_date", "final_rating", "final_trade_decision",
@@ -30,7 +32,10 @@ def saved_report(ticker: str, trade_date: str, final_state: dict[str, Any], sign
              for key in STATE_FIELDS if final_state.get(key) is not None}
     state["company_of_interest"] = ticker.upper()
     state["trade_date"] = trade_date
+    quality = audit_decision(state, expected_ticker=ticker, expected_date=trade_date)
     return {
+        "quality_audit": quality,
+        "approved_for_paper_planning": quality["status"] == "PASS",
         "ticker": ticker.upper(), "analysis_date": trade_date,
         "decision": str(signal), "analysts_requested": list(ANALYSTS),
         "mode": "PAPER_RESEARCH_ONLY", "state": state,
@@ -43,6 +48,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--ticker", required=True, help="Yahoo ticker, e.g. NVDA")
     parser.add_argument("--date", required=True, help="Analysis date YYYY-MM-DD (completed trading session)")
     parser.add_argument("--output-dir", type=Path, default=Path("raporty"))
+    parser.add_argument("--max-output-tokens", type=int, default=None,
+                        help="Override output token cap (1024-8192) for long research runs")
     args = parser.parse_args(argv)
 
     from dotenv import load_dotenv
@@ -57,7 +64,11 @@ def main(argv: list[str] | None = None) -> int:
     config["max_tool_rounds"] = min(config["max_tool_rounds"], 2)
     config["max_debate_rounds"] = min(config["max_debate_rounds"], 1)
     config["max_risk_discuss_rounds"] = min(config["max_risk_discuss_rounds"], 1)
-    if config.get("max_tokens") is None:
+    if args.max_output_tokens is not None:
+        if not 1024 <= args.max_output_tokens <= 8192:
+            parser.error("--max-output-tokens must be 1024..8192")
+        config["max_tokens"] = args.max_output_tokens
+    elif config.get("max_tokens") is None:
         config["max_tokens"] = 2000
     if config.get("llm_max_retries") is None:
         config["llm_max_retries"] = 0
@@ -74,6 +85,8 @@ def main(argv: list[str] | None = None) -> int:
         "mode": "PAPER_RESEARCH_ONLY", "analysts": list(ANALYSTS),
         "ticker": report["ticker"], "analysis_date": report["analysis_date"],
         "rating": report["decision"], "saved_report": str(output),
+        "quality_status": report["quality_audit"]["status"],
+        "quality_issues": report["quality_audit"]["issues"],
         "trade_executed": False,
         "next_step": "Preview with paper_preview and apply human-paced session policy",
     }, ensure_ascii=False, indent=2))
