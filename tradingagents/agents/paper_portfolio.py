@@ -58,11 +58,14 @@ class PaperPortfolio:
         self.cash_pln = self.initial_cash_pln
 
     def trade(self, *, side: str, ticker: str, quantity: int,
-              price_pln: Any, trade_id: str, date: str) -> dict[str, Any]:
+              price_pln: Any, trade_id: str, date: str,
+              fee_rate: Any | None = None) -> dict[str, Any]:
         """Record one simulated fill at a specified PLN price.
 
-        trade_id prevents repeated execution. Fee is 0.25% of gross notional,
-        rounded to PLN cents. Shares must be whole, no credit or shorts.
+        trade_id prevents repeated execution. Legacy fee is 0.25% of gross.
+        An explicit fee_rate overrides this for a broker-cost estimate; the
+        override is persisted in the journal and checked when replaying.
+        Shares must be whole, no credit or shorts.
         """
         side = side.upper()
         ticker = ticker.strip().upper() if isinstance(ticker, str) else ""
@@ -82,7 +85,10 @@ class PaperPortfolio:
             raise ValueError("Duplicate trade_id")
 
         gross = _money(price * quantity)
-        fee = _money(gross * FEE_RATE)
+        rate = FEE_RATE if fee_rate is None else _decimal(fee_rate)
+        if not Decimal("0") <= rate < Decimal("1"):
+            raise ValueError("Invalid fee rate")
+        fee = _money(gross * rate)
         position = self.positions.get(ticker)
         pnl = Decimal("0.00")
 
@@ -120,6 +126,8 @@ class PaperPortfolio:
             "gross_pln": str(gross), "fee_pln": str(fee),
             "realized_pnl_pln": str(pnl),
         }
+        if fee_rate is not None:
+            record["fee_rate"] = str(rate)
         self.transactions.append(record)
         return record
 
@@ -188,6 +196,7 @@ class PaperPortfolio:
             record = portfolio.trade(
                 side=tx["side"], ticker=tx["ticker"], quantity=tx["quantity"],
                 price_pln=tx["price_pln"], trade_id=tx["trade_id"], date=tx["date"],
+                fee_rate=tx.get("fee_rate"),
             )
             if record != tx:
                 raise ValueError("Inconsistent transaction journal")
