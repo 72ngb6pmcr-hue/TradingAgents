@@ -1,0 +1,62 @@
+name: Twice-daily market research (no orders)
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Warsaw 10:20 and 19:20, both CET and CEST.
+    # The Python local-time gate chooses the two correct UTC slots.
+    - cron: "20 8,9,17,18 * * 1-5"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: twice-daily-market-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install scanner dependencies
+        run: python -m pip install "yfinance>=0.2,<2" "pandas>=2,<4"
+      - name: Run market scan (no API keys or execution)
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            python -m tradingagents.agents.daily_market_scan --enforce-window
+          else
+            python -m tradingagents.agents.daily_market_scan
+          fi
+      - name: Publish summary
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, os
+          output = Path(os.environ["GITHUB_STEP_SUMMARY"])
+          path = Path("scan-output/market_scan.json")
+          with output.open("a", encoding="utf-8") as f:
+              f.write("## GPW/US — research only, no trades\n\n")
+              if not path.exists():
+                  f.write("No data: outside Warsaw review window or scan failed.\n")
+              else:
+                  d = json.loads(path.read_text(encoding="utf-8"))
+                  f.write(f"Status: **{d['status']}**. Capital reference: **10,000 PLN**. No orders.\n\n")
+                  f.write("| Ticker | Market | Price (native) | Trend score | 20d momentum | Status |\n")
+                  f.write("|---|---|---:|---:|---:|---|\n")
+                  for item in d["candidates"]:
+                      f.write(f"| {item['ticker']} | {item['market']} | {item.get('adjusted_close_native', '-')} | {item.get('strength_score', '-')} | {item.get('momentum_20d_pct', '-')} | {item['status']} |\n")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: market-scan-${{ github.run_id }}
+          path: scan-output/market_scan.json
+          if-no-files-found: ignore
+          retention-days: 30
