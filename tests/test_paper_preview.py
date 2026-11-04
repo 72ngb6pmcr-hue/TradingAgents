@@ -93,3 +93,25 @@ def test_conflicting_rating_causes_review():
     result = preview_report(r, PaperPortfolio(), {"NVDA": "USD"}, mark_loader=loader)
     assert result["proposal"]["status"] == "REVIEW"
     assert result["proposal"]["action"] == "HOLD"
+
+
+def test_preview_xtb_mode_uses_listing_currency_for_fx_cost():
+    result = preview_report(
+        report("Overweight"), PaperPortfolio(), {"NVDA": "USD"},
+        mark_loader=loader, cost_model="xtb_estimate",
+        account_currency="PLN", monthly_turnover_after_trade_eur="2000",
+    )
+    assert result["proposal"]["status"] == "PROPOSED"
+    assert result["proposal"]["cost_model"] == "XTB_ESTIMATE"
+    assert result["proposal"]["estimated_fee_rate"] == "0.005"
+    assert result["trade_executed"] is False
+
+
+def test_preview_xtb_missing_monthly_turnover_is_review():
+    result = preview_report(
+        report("Buy"), PaperPortfolio(), {"NVDA": "USD"},
+        mark_loader=loader, cost_model="xtb_estimate",
+        account_currency="PLN",
+    )
+    assert result["proposal"]["status"] == "REVIEW"
+    assert result["proposal"]["action"] == "HOLD"

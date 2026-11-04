@@ -103,3 +103,47 @@ def test_never_uses_actual_broker():
     p = PaperPortfolio()
     _plan(p)
     assert not p.transactions
+
+
+def test_xtb_pln_buy_sizes_without_legacy_fee():
+    p = PaperPortfolio()
+    result = _plan(
+        p, cost_model="xtb_estimate", listing_currency="PLN",
+        account_currency="PLN", monthly_turnover_after_trade_eur="500",
+    )
+    assert result["status"] == "PROPOSED"
+    assert result["quantity"] == 10
+    assert result["estimated_fee_pln"] == "0.00"
+    assert result["cost_model"] == "XTB_ESTIMATE"
+    assert p.transactions == []
+
+
+def test_xtb_usd_buy_includes_currency_conversion():
+    result = _plan(
+        PaperPortfolio(), cost_model="xtb_estimate", listing_currency="USD",
+        account_currency="PLN", monthly_turnover_after_trade_eur="500",
+    )
+    assert result["quantity"] == 9
+    assert result["estimated_fee_rate"] == "0.005"
+    assert result["estimated_fee_pln"] == "4.50"
+
+
+def test_xtb_mode_requires_explicit_currency_and_turnover():
+    p = PaperPortfolio()
+    result = _plan(p, cost_model="xtb_estimate")
+    assert result["status"] == "REVIEW"
+    assert not p.transactions
+
+
+def test_xtb_mode_fails_closed_above_100k_eur_turnover():
+    p = PaperPortfolio()
+    result = _plan(
+        p, cost_model="xtb_estimate", listing_currency="PLN",
+        monthly_turnover_after_trade_eur="100001",
+    )
+    assert result["status"] == "REVIEW"
+    assert not p.transactions
+
+
+def test_unknown_cost_model_does_not_silently_use_legacy_fee():
+    assert _plan(PaperPortfolio(), cost_model="XTB")["status"] == "REVIEW"
