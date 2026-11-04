@@ -41,6 +41,10 @@ def evaluate_review_window(proposal: dict, portfolio: PaperPortfolio, *, now: da
             return {**common, "status": "BLOCKED", "reason": "Future-dated journal transaction"}
         if tx_date > cutoff:
             recent.append(tx)
+    # Never let an entry-frequency rule obstruct a risk-reducing SELL review.
+    if proposal["action"] == "SELL":
+        return {**common, "status": "READY_FOR_HUMAN_REVIEW",
+                "reason": "Risk-reducing sale is exempt from entry cooldown; manual approval required"}
     if len(recent) >= MAX_WEEKLY_TRADES:
         return {**common, "status": "WAIT_COOLDOWN",
                 "reason": "Maximum two simulated trades per rolling seven days"}
