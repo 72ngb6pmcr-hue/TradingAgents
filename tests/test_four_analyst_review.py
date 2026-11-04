@@ -43,7 +43,7 @@ def test_truncated_report_is_labelled_review_before_saving():
         "market_report": "market", "investment_plan": "plan",
         "trader_investment_plan": "trader",
         "final_rating": "Hold",
-        "final_trade_decision": "**Rating**: Hold\\nTrailing stop (~69",
+        "final_trade_decision": "**Rating**: Hold\nTrailing stop (~69",
     }
     result = saved_report("BDX.WA", "2026-11-03", state, "Hold")
     assert result["quality_audit"]["status"] == "REVIEW"
@@ -55,7 +55,7 @@ def test_complete_report_marked_pass_by_audit():
         "market_report": "market", "investment_plan": "plan",
         "trader_investment_plan": "trader",
         "final_rating": "Hold",
-        "final_trade_decision": "**Rating**: Hold\\nNo position change is proposed.",
+        "final_trade_decision": "**Rating**: Hold\nNo position change is proposed.",
     }
     result = saved_report("BDX.WA", "2026-11-03", state, "Hold")
     assert result["quality_audit"]["status"] == "PASS"
