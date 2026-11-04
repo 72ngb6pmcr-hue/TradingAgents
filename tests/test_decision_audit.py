@@ -49,3 +49,24 @@ def test_missing_ticker_does_not_false_match():
     state = _state()
     state["company_of_interest"] = ""
     assert audit_decision(state, expected_ticker="NVDA")["status"] == "REVIEW"
+
+
+def test_budimex_truncated_fallback_is_review():
+    state = _state("Hold", ticker="BDX.WA")
+    state["final_trade_decision"] = (
+        "**Rating**: Hold\n\n"
+        "**Executive Summary**: Maintain current position; "
+        "Use an ATR-based trailing stop (~69"
+    )
+    result = audit_decision(state, expected_ticker="BDX.WA")
+    assert result["status"] == "REVIEW"
+    assert any("truncated" in x for x in result["issues"])
+
+
+def test_complete_price_and_parentheses_can_pass():
+    state = _state("Hold", ticker="BDX.WA")
+    state["final_trade_decision"] = (
+        "**Rating**: Hold\n"
+        "Wait for a verified close above 740 PLN (with volume confirmation)."
+    )
+    assert audit_decision(state)["status"] == "PASS"
