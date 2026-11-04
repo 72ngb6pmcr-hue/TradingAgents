@@ -37,3 +37,26 @@ def test_manual_exit_review_not_blocked_by_weekly_cap():
     result = evaluate_review_window(proposal, p, now=datetime(2026, 11, 4, 19, tzinfo=ZoneInfo("Europe/Warsaw")))
     assert result["status"] == "READY_FOR_HUMAN_REVIEW"
     assert p.positions["NVDA"].quantity == 1
+
+def test_truncated_report_is_labelled_review_before_saving():
+    state = {
+        "market_report": "market", "investment_plan": "plan",
+        "trader_investment_plan": "trader",
+        "final_rating": "Hold",
+        "final_trade_decision": "**Rating**: Hold\\nTrailing stop (~69",
+    }
+    result = saved_report("BDX.WA", "2026-11-03", state, "Hold")
+    assert result["quality_audit"]["status"] == "REVIEW"
+    assert result["approved_for_paper_planning"] is False
+
+
+def test_complete_report_marked_pass_by_audit():
+    state = {
+        "market_report": "market", "investment_plan": "plan",
+        "trader_investment_plan": "trader",
+        "final_rating": "Hold",
+        "final_trade_decision": "**Rating**: Hold\\nNo position change is proposed.",
+    }
+    result = saved_report("BDX.WA", "2026-11-03", state, "Hold")
+    assert result["quality_audit"]["status"] == "PASS"
+    assert result["approved_for_paper_planning"] is True
