@@ -7,6 +7,7 @@ Portfolio Manager rating. Missing evidence must be reviewed by a human.
 from __future__ import annotations
 
 from typing import Any
+import re
 
 from tradingagents.agents.rating import RATINGS_5_TIER, RATING_REVIEW, parse_rating
 
@@ -39,6 +40,18 @@ def audit_decision(state: dict[str, Any], *, expected_ticker: str | None = None,
 
     if not decision_text.strip():
         issues.append("Missing final decision")
+    else:
+        # A failed structured-output call can fall back to partially generated
+        # free text. An explicit rating at the start is NOT evidence that the
+        # narrative completed. Fail closed on recognizable truncation.
+        stripped = decision_text.rstrip()
+        if (
+            stripped.count("(") > stripped.count(")")
+            or stripped.count("[") > stripped.count("]")
+            or re.search(r"(?:~|≈|\\$)\\s*\\d+(?:[.,]\\d*)?$", stripped)
+            or re.search(r"(?:\\b(?:and|or|the|to|if|with|at|below|above|on|for)|[,;:–—-])$", stripped, re.IGNORECASE)
+        ):
+            issues.append("Final decision appears truncated or incomplete")
     for field in ("market_report", "investment_plan", "trader_investment_plan"):
         if not str(state.get(field) or "").strip():
             issues.append(f"Missing report: {field}")
