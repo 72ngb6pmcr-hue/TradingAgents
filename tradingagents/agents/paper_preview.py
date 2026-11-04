@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from tradingagents.agents.paper_portfolio import PaperPortfolio
+from tradingagents.agents.paper_review_policy import evaluate_review_window
 from tradingagents.agents.paper_signal_planner import plan_paper_signal
 from tradingagents.agents.pln_market_marks import verified_pln_marks
 
@@ -68,6 +69,7 @@ def preview_report(
         "ticker": ticker, "analysis_date": date,
         "agent_rating": str(state.get("final_rating") or report.get("decision") or ""),
         "proposal": proposal,
+        "human_review": evaluate_review_window(proposal, portfolio),
         "portfolio": valuation,
         "market_marks": marks["records"],
         "trade_executed": False,
