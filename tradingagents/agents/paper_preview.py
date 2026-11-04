@@ -29,6 +29,9 @@ def preview_report(
     currency_by_ticker: dict[str, str],
     *,
     mark_loader: Callable[..., Any] | None = None,
+    cost_model: str = "legacy",
+    account_currency: str = "PLN",
+    monthly_turnover_after_trade_eur: Any | None = None,
 ) -> dict[str, Any]:
     """Construct a purely informational paper-trading decision preview."""
     state = report.get("state")
@@ -62,6 +65,10 @@ def preview_report(
         prices_pln=marks["prices_pln"],
         quote_date=date,
         quote_source="Yahoo Finance adjusted daily close (indicative, not a fill quote)",
+        cost_model=cost_model,
+        listing_currency=currencies[ticker],
+        account_currency=account_currency,
+        monthly_turnover_after_trade_eur=monthly_turnover_after_trade_eur,
     )
     valuation = portfolio.valuation(marks["prices_pln"])
     return {
@@ -90,6 +97,11 @@ def main(argv: list[str] | None = None) -> int:
                         help="Optional existing PAPER_ONLY ledger JSON. If omitted, use fresh 10,000 PLN cash")
     parser.add_argument("--holding-currency", action="append", default=[], metavar="TICKER:CCY",
                         help="Currency for each existing held ticker, e.g. AAPL:USD")
+    parser.add_argument("--cost-model", choices=("legacy", "xtb_estimate"), default="legacy",
+                        help="Fee sizing: legacy 0.25%% or indicative XTB real-stock/ETF terms")
+    parser.add_argument("--account-currency", choices=("PLN", "EUR", "USD"), default="PLN")
+    parser.add_argument("--monthly-turnover-after-trade-eur", default=None,
+                        help="User-verified EUR monthly turnover including proposed trade")
     args = parser.parse_args(argv)
 
     report = json.loads(args.report.read_text(encoding="utf-8"))
@@ -104,7 +116,12 @@ def main(argv: list[str] | None = None) -> int:
         if not symbol.strip() or code.upper() not in ("PLN", "USD", "EUR"):
             parser.error("Holding currency must be PLN, USD or EUR")
         currencies[symbol.strip().upper()] = code.upper()
-    result = preview_report(report, portfolio, currencies)
+    result = preview_report(
+        report, portfolio, currencies,
+        cost_model=args.cost_model,
+        account_currency=args.account_currency,
+        monthly_turnover_after_trade_eur=args.monthly_turnover_after_trade_eur,
+    )
     print(json.dumps(result, indent=2, ensure_ascii=False))
     return 0
 
