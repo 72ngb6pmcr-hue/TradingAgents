@@ -48,8 +48,8 @@ def audit_decision(state: dict[str, Any], *, expected_ticker: str | None = None,
         if (
             stripped.count("(") > stripped.count(")")
             or stripped.count("[") > stripped.count("]")
-            or re.search(r"(?:~|≈|\\$)\\s*\\d+(?:[.,]\\d*)?$", stripped)
-            or re.search(r"(?:\\b(?:and|or|the|to|if|with|at|below|above|on|for)|[,;:–—-])$", stripped, re.IGNORECASE)
+            or re.search(r"(?:~|≈|\$)\s*\d+(?:[.,]\d*)?$", stripped)
+            or re.search(r"(?:\b(?:and|or|the|to|if|with|at|below|above|on|for)|[,;:–—-])$", stripped, re.IGNORECASE)
         ):
             issues.append("Final decision appears truncated or incomplete")
     for field in ("market_report", "investment_plan", "trader_investment_plan"):
