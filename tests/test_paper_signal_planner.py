@@ -70,8 +70,8 @@ def test_equity_floor_blocks_new_buys():
     p = PaperPortfolio()
     p.trade(side="BUY", ticker="NVDA", quantity=10, price_pln="100",
             trade_id="b1", date="2026-11-03")
-    result = _plan(p, rating="Buy", prices_pln={"NVDA": "1"})
-    # With another mark for the same ticker, cash 8997.50 + position 10 <= 9000.
+    result = _plan(p, rating="Buy", prices_pln={"NVDA": "0.10"})
+    # With another mark for the same ticker, cash 8997.50 + position 1.00 <= 9000.
     assert result["status"] == "BLOCKED"
 
 
