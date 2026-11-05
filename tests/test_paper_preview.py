@@ -1,6 +1,5 @@
 """Read-only end-to-end preview; fake Yahoo data to avoid network and LLM."""
 
-import json
 from datetime import date, timedelta
 
 import pandas as pd
