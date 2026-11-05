@@ -18,6 +18,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from tradingagents.agents.independent_agent_review import independent_review
 from tradingagents.agents.paper_portfolio import PaperPortfolio
 from tradingagents.agents.paper_review_policy import evaluate_review_window
 from tradingagents.agents.paper_signal_planner import plan_paper_signal
@@ -33,6 +34,7 @@ def preview_report(
     cost_model: str = "legacy",
     account_currency: str = "PLN",
     monthly_turnover_after_trade_eur: Any | None = None,
+    independent_observation: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Construct a purely informational paper-trading decision preview."""
     state = report.get("state")
@@ -72,12 +74,18 @@ def preview_report(
         monthly_turnover_after_trade_eur=monthly_turnover_after_trade_eur,
     )
     valuation = portfolio.valuation(marks["prices_pln"])
+    critic = independent_review(proposal, independent_observation)
+    review = evaluate_review_window(proposal, portfolio)
+    if proposal.get("action") == "BUY" and critic["status"] == "REVIEW":
+        review = {**review, "status": "BLOCKED_INDEPENDENT_REVIEW",
+                  "reason": "Independent evidence or execution quote must be reviewed"}
     return {
         "mode": "PAPER_PREVIEW_ONLY",
         "ticker": ticker, "analysis_date": date,
         "agent_rating": str(state.get("final_rating") or report.get("decision") or ""),
         "proposal": proposal,
-        "human_review": evaluate_review_window(proposal, portfolio),
+        "independent_review": critic,
+        "human_review": review,
         "portfolio": valuation,
         "market_marks": marks["records"],
         "trade_executed": False,
@@ -98,6 +106,8 @@ def main(argv: list[str] | None = None) -> int:
                         help="Optional existing PAPER_ONLY ledger JSON. If omitted, use fresh 10,000 PLN cash")
     parser.add_argument("--holding-currency", action="append", default=[], metavar="TICKER:CCY",
                         help="Currency for each existing held ticker, e.g. AAPL:USD")
+    parser.add_argument("--market-scan", type=Path,
+                        help="Optional scanner JSON: independent technical/risk critique")
     parser.add_argument("--cost-model", choices=("legacy", "xtb_estimate"), default="legacy",
                         help="Fee sizing: legacy 0.25%% or indicative XTB real-stock/ETF terms")
     parser.add_argument("--account-currency", choices=("PLN", "EUR", "USD"), default="PLN")
@@ -117,11 +127,21 @@ def main(argv: list[str] | None = None) -> int:
         if not symbol.strip() or code.upper() not in ("PLN", "USD", "EUR"):
             parser.error("Holding currency must be PLN, USD or EUR")
         currencies[symbol.strip().upper()] = code.upper()
+    observation = None
+    if args.market_scan:
+        scan = json.loads(args.market_scan.read_text(encoding="utf-8"))
+        candidates = scan.get("candidates")
+        if not isinstance(candidates, list):
+            parser.error("--market-scan must contain a candidates list")
+        matches = [item for item in candidates if isinstance(item, dict)
+                   and str(item.get("ticker", "")).upper() == ticker]
+        observation = matches[0] if len(matches) == 1 else None
     result = preview_report(
         report, portfolio, currencies,
         cost_model=args.cost_model,
         account_currency=args.account_currency,
         monthly_turnover_after_trade_eur=args.monthly_turnover_after_trade_eur,
+        independent_observation=observation,
     )
     print(json.dumps(result, indent=2, ensure_ascii=False))
     return 0

@@ -63,3 +63,13 @@ def test_data_error_not_mistaken_for_signal():
     assert next(c for c in result["candidates"] if c["ticker"] == "KGH.WA")["status"] == "DATA_ERROR"
     assert result["transactions_submitted"] == 0
     assert result["trade_executed"] is False
+
+
+def test_gpw_scanner_includes_retrospective_baseline_but_us_needs_fx():
+    now = datetime(2026, 11, 5, 10, tzinfo=TZ)
+    report = scan(now=now, fetcher=lambda symbol: history(now))
+    gpw = next(x for x in report["candidates"] if x["ticker"] == "BDX.WA")
+    us = next(x for x in report["candidates"] if x["ticker"] == "NVDA")
+    assert gpw["retrospective_baselines"]["actual_trades_executed"] == 0
+    assert "buy_and_hold" in gpw["retrospective_baselines"]
+    assert "retrospective_baselines" not in us
