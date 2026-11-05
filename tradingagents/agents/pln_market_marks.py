@@ -7,14 +7,15 @@ not executable fill quotes. A fill should be approved separately.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import date
-from decimal import Decimal, ROUND_HALF_UP
-from typing import Callable, Any
+from decimal import Decimal
+from typing import Any
 
 import pandas as pd
 
-from tradingagents.dataflows.vendors.yahoo.snapshot import _verified_rows
 from tradingagents.agents.paper_portfolio import _decimal, _money
+from tradingagents.dataflows.vendors.yahoo.snapshot import _verified_rows
 
 FX_SYMBOLS = {"USD": "USDPLN=X", "EUR": "EURPLN=X"}
 MAX_FX_AGE_DAYS = 3
