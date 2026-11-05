@@ -15,7 +15,8 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from tradingagents.agents.paper_portfolio import PaperPortfolio
 from tradingagents.agents.paper_review_policy import evaluate_review_window
