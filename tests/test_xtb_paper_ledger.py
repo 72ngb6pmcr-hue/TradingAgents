@@ -1,6 +1,8 @@
 """XTB-mode paper ledger: monetary accounting and replay only."""
 from decimal import Decimal
+
 import pytest
+
 from tradingagents.agents.paper_portfolio import PaperPortfolio
 from tradingagents.agents.xtb_paper_ledger import record_xtb_paper_trade
 
