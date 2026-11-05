@@ -47,7 +47,7 @@ jobs:
                   f.write("No data: outside Warsaw review window or scan failed.\n")
               else:
                   d = json.loads(path.read_text(encoding="utf-8"))
-                  f.write(f"Status: **{d['status']}**. Capital reference: **10,000 PLN**. No orders.\n\n")
+                  f.write(f"Status: **{d['status']}**. Capital reference: **100,000 PLN**. No orders.\n\n")
                   f.write("| Ticker | Market | Price (native) | Trend score | 20d momentum | Status |\n")
                   f.write("|---|---|---:|---:|---:|---|\n")
                   for item in d["candidates"]:

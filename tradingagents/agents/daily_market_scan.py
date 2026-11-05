@@ -117,7 +117,7 @@ def scan(*, now: datetime, fetcher=None) -> dict:
     return {
         "mode": "UNATTENDED_RESEARCH_ONLY",
         "run_at_warsaw": now.astimezone(WARSAW).isoformat(),
-        "capital_reference_pln": "10000.00",
+        "capital_reference_pln": "100000.00",
         "trade_executed": False,
         "broker_connected": False,
         "transactions_submitted": 0,
