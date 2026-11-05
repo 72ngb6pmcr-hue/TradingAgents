@@ -13,6 +13,8 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from tradingagents.agents.strategy_baselines import compare_baselines
+
 WARSAW = ZoneInfo("Europe/Warsaw")
 WATCHLIST = {
     "BDX.WA": ("Budimex", "GPW", "PLN"),
@@ -91,7 +93,24 @@ def scan(*, now: datetime, fetcher=None) -> dict:
     rows = []
     for symbol, (name, market, currency) in WATCHLIST.items():
         try:
-            scored = score_history(symbol, fetcher(symbol), now)
+            bars = fetcher(symbol)
+            scored = score_history(symbol, bars, now)
+            if currency == "PLN" and scored["status"] == "OBSERVATION":
+                # All bars are historical and the ticker is already PLN-listed.
+                # Do not apply this to USD assets without dated FX conversion.
+                local_date = now.astimezone(WARSAW).date().isoformat()
+                eligible = sorted(
+                    (str(bar["date"]), bar["close"]) for bar in bars
+                    if str(bar.get("date", "")) < local_date
+                )
+                try:
+                    scored["retrospective_baselines"] = compare_baselines(
+                        eligible, fee_rate="0",
+                    )
+                except (ValueError, TypeError, KeyError):
+                    scored["retrospective_baselines"] = {
+                        "status": "INSUFFICIENT_OR_INVALID_BASELINE_DATA",
+                    }
         except Exception as exc:
             scored = {"ticker": symbol, "status": "DATA_ERROR", "error_type": type(exc).__name__}
         rows.append({"name": name, "market": market, "listing_currency": currency, **scored})
