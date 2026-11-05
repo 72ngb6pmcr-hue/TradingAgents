@@ -74,13 +74,18 @@ def preview_report(
         monthly_turnover_after_trade_eur=monthly_turnover_after_trade_eur,
     )
     valuation = portfolio.valuation(marks["prices_pln"])
+    critic = independent_review(proposal, independent_observation)
+    review = evaluate_review_window(proposal, portfolio)
+    if proposal.get("action") == "BUY" and critic["status"] == "REVIEW":
+        review = {**review, "status": "BLOCKED_INDEPENDENT_REVIEW",
+                  "reason": "Independent evidence or execution quote must be reviewed"}
     return {
         "mode": "PAPER_PREVIEW_ONLY",
         "ticker": ticker, "analysis_date": date,
         "agent_rating": str(state.get("final_rating") or report.get("decision") or ""),
         "proposal": proposal,
-        "independent_review": independent_review(proposal, independent_observation),
-        "human_review": evaluate_review_window(proposal, portfolio),
+        "independent_review": critic,
+        "human_review": review,
         "portfolio": valuation,
         "market_marks": marks["records"],
         "trade_executed": False,
