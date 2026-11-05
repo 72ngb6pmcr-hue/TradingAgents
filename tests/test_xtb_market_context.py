@@ -4,7 +4,9 @@ from decimal import Decimal
 from zoneinfo import ZoneInfo
 
 from tradingagents.agents.xtb_market_context import (
-    SAMPLE_UNIVERSE, XtbCosts, market_review_context,
+    SAMPLE_UNIVERSE,
+    XtbCosts,
+    market_review_context,
 )
 
 WARSAW = ZoneInfo("Europe/Warsaw")
