@@ -3,9 +3,9 @@ name: Twice-daily market research (no orders)
 on:
   workflow_dispatch:
   schedule:
-    # Warsaw 10:20 and 19:20, both CET and CEST.
+    # Warsaw 07:40 and 19:40, both CET and CEST.
     # The Python local-time gate chooses the two correct UTC slots.
-    - cron: "20 8,9,17,18 * * 1-5"
+    - cron: "40 5,6,17,18 * * 1-5"
 
 permissions:
   contents: read

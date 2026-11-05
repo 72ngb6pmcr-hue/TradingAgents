@@ -19,9 +19,9 @@ def history(now, *, strength=True):
 
 
 def test_daytime_and_evening_windows():
-    assert allowed_window(datetime(2026, 11, 5, 10, tzinfo=TZ))
+    assert allowed_window(datetime(2026, 11, 5, 7, 40, tzinfo=TZ))
     assert allowed_window(datetime(2026, 11, 5, 19, tzinfo=TZ))
-    assert not allowed_window(datetime(2026, 11, 5, 9, tzinfo=TZ))
+    assert not allowed_window(datetime(2026, 11, 5, 10, tzinfo=TZ))
     assert not allowed_window(datetime(2026, 11, 7, 10, tzinfo=TZ))
 
 
@@ -73,3 +73,9 @@ def test_gpw_scanner_includes_retrospective_baseline_but_us_needs_fx():
     assert gpw["retrospective_baselines"]["actual_trades_executed"] == 0
     assert "buy_and_hold" in gpw["retrospective_baselines"]
     assert "retrospective_baselines" not in us
+
+
+def test_summer_and_winter_local_scan_window():
+    assert allowed_window(datetime(2026, 7, 6, 7, 40, tzinfo=TZ))
+    assert allowed_window(datetime(2026, 11, 6, 19, 40, tzinfo=TZ))
+    assert not allowed_window(datetime(2026, 11, 7, 7, 40, tzinfo=TZ))
