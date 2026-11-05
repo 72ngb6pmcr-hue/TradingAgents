@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -50,9 +50,9 @@ def classify_articles(topic: str, articles: list[dict[str, Any]]) -> dict:
         domain = parsed.hostname.lower().removeprefix("www.")
         domains.add(domain)
         lower = re.sub(r"\s+", " ", title.lower())
-        if topic == "HORMUZ_ENERGY" and any(x in lower for x in HORMUZ_WORDS):
-            if any(x in lower for x in SUPPLY_WORDS):
-                potential_disruption = True
+        if (topic == "HORMUZ_ENERGY" and any(x in lower for x in HORMUZ_WORDS)
+                and any(x in lower for x in SUPPLY_WORDS)):
+            potential_disruption = True
         valid.append({
             "title": title[:500], "url": url,
             "source_domain": domain, "reported_at": str(article.get("seendate") or ""),
@@ -77,7 +77,7 @@ def watch(*, fetcher=None, now: datetime | None = None) -> dict:
         from tradingagents.dataflows.vendors.gdelt.news import fetch_news_articles
 
         fetcher = fetch_news_articles
-    timestamp = now or datetime.now(timezone.utc)
+    timestamp = now or datetime.now(UTC)
     if timestamp.tzinfo is None or timestamp.utcoffset() is None:
         raise ValueError("Aware timestamp required")
     topics = []
@@ -92,7 +92,7 @@ def watch(*, fetcher=None, now: datetime | None = None) -> dict:
             })
     return {
         "mode": "EVENT_INTELLIGENCE_NO_ORDERS",
-        "timestamp_utc": timestamp.astimezone(timezone.utc).isoformat(),
+        "timestamp_utc": timestamp.astimezone(UTC).isoformat(),
         "status": "DATA_REVIEW_REQUIRED" if any(x["status"] == "DATA_ERROR" for x in topics) else "RESEARCH_LEADS_ONLY",
         "no_auto_buy_or_sell": True, "broker_connected": False,
         "direct_model_consultations": 0,
