@@ -68,7 +68,7 @@ def compare_baselines(
             # Current decision uses bars <= index-1; proxy fill on index close.
             known = px[:index]
             if algorithm == "HOLD":
-                enter = index == long_window
+                enter = True  # buy at first eligible date, then keep exposure
             else:
                 avg_short = sum(known[-short_window:]) / short_window
                 avg_long = sum(known[-long_window:]) / long_window
