@@ -14,8 +14,8 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 from collections.abc import Callable
+from pathlib import Path
 from typing import Any
 
 from tradingagents.agents.paper_portfolio import PaperPortfolio
