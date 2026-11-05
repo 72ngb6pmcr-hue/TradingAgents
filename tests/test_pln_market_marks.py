@@ -7,7 +7,6 @@ import pytest
 
 from tradingagents.agents.pln_market_marks import verified_pln_mark, verified_pln_marks
 
-
 DATE = (date.today() - timedelta(days=1)).isoformat()
 PRIOR = (date.today() - timedelta(days=2)).isoformat()
 OLD = (date.today() - timedelta(days=10)).isoformat()
