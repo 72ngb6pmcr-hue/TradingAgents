@@ -1,7 +1,9 @@
 """Human paced policy: deterministic fixed-clock tests."""
 from datetime import datetime
 from zoneinfo import ZoneInfo
+
 import pytest
+
 from tradingagents.agents.paper_portfolio import PaperPortfolio
 from tradingagents.agents.paper_review_policy import evaluate_review_window
 
