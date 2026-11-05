@@ -9,7 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -85,14 +85,9 @@ def score_history(symbol: str, bars: list[dict], now: datetime) -> dict:
 def scan(*, now: datetime, fetcher=None) -> dict:
     """Fetch independently for each instrument; never label gaps as a good signal."""
     if fetcher is None:
-        import yfinance as yf
-        def fetcher(symbol: str) -> list[dict]:
-            hist = yf.Ticker(symbol).history(period="8mo", interval="1d", auto_adjust=True)
-            return [
-                {"date": index.date().isoformat(), "close": float(row["Close"]),
-                 "volume": float(row["Volume"])}
-                for index, row in hist.iterrows()
-            ]
+        from tradingagents.dataflows.vendors.yahoo.daily_scan import fetch_daily_bars
+
+        fetcher = fetch_daily_bars
     rows = []
     for symbol, (name, market, currency) in WATCHLIST.items():
         try:
