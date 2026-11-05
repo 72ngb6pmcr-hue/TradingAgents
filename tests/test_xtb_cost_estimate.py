@@ -1,5 +1,6 @@
 """XTB indicative fees, never broker access or fills."""
 import pytest
+
 from tradingagents.agents.xtb_cost_estimate import estimate_xtb_stock_costs
 
 
