@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "mode": "PAPER_ONLY",
+  "currency": "PLN",
+  "initial_cash_pln": "100000.00",
+  "cash_pln": "100000.00",
+  "realized_pnl_pln": "0.00",
+  "positions": {},
+  "transactions": []
+}
