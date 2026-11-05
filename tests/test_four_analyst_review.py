@@ -1,9 +1,10 @@
 """Four-agent report builder tests: no network or LLM requests."""
-from tradingagents.agents.four_analyst_review import ANALYSTS, saved_report
-from tradingagents.agents.paper_review_policy import evaluate_review_window
-from tradingagents.agents.paper_portfolio import PaperPortfolio
 from datetime import datetime
 from zoneinfo import ZoneInfo
+
+from tradingagents.agents.four_analyst_review import ANALYSTS, saved_report
+from tradingagents.agents.paper_portfolio import PaperPortfolio
+from tradingagents.agents.paper_review_policy import evaluate_review_window
 
 
 def test_all_four_analysts_selected():
