@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from tradingagents.agents.rating import RATINGS_5_TIER, RATING_REVIEW, parse_rating
+from tradingagents.agents.rating import RATING_REVIEW, RATINGS_5_TIER, parse_rating
 
 
 def _rating(state: dict[str, Any]) -> str:
