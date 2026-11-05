@@ -114,3 +114,19 @@ def test_preview_xtb_missing_monthly_turnover_is_review():
     )
     assert result["proposal"]["status"] == "REVIEW"
     assert result["proposal"]["action"] == "HOLD"
+
+
+def test_independent_critic_flags_adjusted_close_buy_preview():
+    r = report("Buy")
+    result = preview_report(
+        r, PaperPortfolio(), {"NVDA": "USD"}, mark_loader=loader,
+        independent_observation={
+            "ticker": "NVDA", "status": "OBSERVATION",
+            "strength_score": 3, "momentum_20d_pct": "5",
+            "daily_volatility_20d_pct": "2",
+        },
+    )
+    assert result["proposal"]["action"] == "BUY"
+    assert result["independent_review"]["status"] == "REVIEW"
+    assert result["independent_review"]["trade_executed"] is False
+    assert any("executable quote" in issue for issue in result["independent_review"]["issues"])
