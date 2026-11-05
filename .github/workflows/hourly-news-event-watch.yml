@@ -1,0 +1,56 @@
+name: Hourly geopolitical news leads (no orders)
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Discovery only; GitHub Actions may be delayed. No broker or LLM.
+    - cron: "15 * * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hourly-event-watch
+  cancel-in-progress: true
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Discover news leads
+        run: python -m tradingagents.agents.news_event_watch
+      - name: Summarize unverified references
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report = Path("scan-output/news_events.json")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as out:
+              out.write("## News leads — NOT verified events, trades or forecasts\n\n")
+              if not report.exists():
+                  out.write("No report; news discovery failed.\n")
+              else:
+                  data = json.loads(report.read_text(encoding="utf-8"))
+                  out.write(f"Status: **{data['status']}**; no orders, no model calls.\n\n")
+                  for topic in data["topics"]:
+                      out.write(f"### {topic['topic']} — {topic['status']}\n")
+                      for article in topic.get("sources", [])[:5]:
+                          title = article["title"].replace("\n", " ").replace("|", "/")
+                          out.write(f"- {title}: {article['url']}\n")
+                      out.write("Unverified headlines only; check primary sources and price response.\n\n")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: news-events-${{ github.run_id }}
+          path: scan-output/news_events.json
+          if-no-files-found: ignore
+          retention-days: 7
