@@ -30,7 +30,7 @@ def allowed_window(now: datetime) -> bool:
     if now.tzinfo is None or now.utcoffset() is None:
         raise ValueError("Timestamp must be timezone-aware")
     local = now.astimezone(WARSAW)
-    return local.weekday() < 5 and local.hour in (10, 19)
+    return local.weekday() < 5 and local.hour in (7, 19)
 
 
 def score_history(symbol: str, bars: list[dict], now: datetime) -> dict:
@@ -136,7 +136,7 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     now = datetime.now(WARSAW)
     if args.enforce_window and not allowed_window(now):
-        print("SKIP: not a weekday 10:00 or 19:00 Europe/Warsaw review window")
+        print("SKIP: not a weekday 07:40 or 19:40 Europe/Warsaw scan window")
         return 0
     result = scan(now=now)
     args.output.parent.mkdir(parents=True, exist_ok=True)
