@@ -1,5 +1,5 @@
 """Headline intelligence is independent, unverified and never trade-producing."""
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from tradingagents.agents.news_event_watch import classify_articles, watch
 
@@ -47,7 +47,7 @@ def test_vendor_failure_is_explicit_not_no_news():
         if "hormuz" in query:
             raise TimeoutError("unavailable")
         return []
-    result = watch(fetcher=fetcher, now=datetime(2026, 11, 5, tzinfo=timezone.utc))
+    result = watch(fetcher=fetcher, now=datetime(2026, 11, 5, tzinfo=UTC))
     assert result["status"] == "DATA_REVIEW_REQUIRED"
     assert result["topics"][0]["status"] == "DATA_ERROR"
     assert result["no_auto_buy_or_sell"] is True
@@ -55,7 +55,7 @@ def test_vendor_failure_is_explicit_not_no_news():
 
 
 def test_empty_news_has_no_market_recommendation():
-    result = watch(fetcher=lambda *, query: [], now=datetime(2026, 11, 5, tzinfo=timezone.utc))
+    result = watch(fetcher=lambda *, query: [], now=datetime(2026, 11, 5, tzinfo=UTC))
     assert result["status"] == "RESEARCH_LEADS_ONLY"
     assert all(topic["action"] == "RESEARCH_ONLY" for topic in result["topics"])
     assert all(topic["event_confirmed"] is False for topic in result["topics"])
