@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from tradingagents.agents.daily_market_scan import allowed_window, score_history, scan
+from tradingagents.agents.daily_market_scan import allowed_window, scan, score_history
 
 TZ = ZoneInfo("Europe/Warsaw")
 
