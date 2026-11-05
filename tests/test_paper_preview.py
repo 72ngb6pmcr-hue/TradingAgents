@@ -128,5 +128,6 @@ def test_independent_critic_flags_adjusted_close_buy_preview():
     )
     assert result["proposal"]["action"] == "BUY"
     assert result["independent_review"]["status"] == "REVIEW"
+    assert result["human_review"]["status"] == "BLOCKED_INDEPENDENT_REVIEW"
     assert result["independent_review"]["trade_executed"] is False
     assert any("executable quote" in issue for issue in result["independent_review"]["issues"])
