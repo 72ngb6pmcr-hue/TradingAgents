@@ -1,4 +1,5 @@
 """Unattended market scanner is deterministic, research-only and DST aware."""
+
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
