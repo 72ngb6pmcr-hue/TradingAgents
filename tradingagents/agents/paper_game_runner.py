@@ -163,7 +163,17 @@ def main(argv=None) -> int:
     # The quote receipts are persisted independently, one file per session.
     if result.get("status") != "WAIT_FOR_COMPLETED_SESSION":
         args.root.joinpath("receipts").mkdir(parents=True, exist_ok=True)
-        args.root.joinpath("receipts", result["session_date"] + ".json").write_text(
+        receipt = args.root / "receipts" / (result["session_date"] + ".json")
+        if receipt.exists():
+            # Preserve original fill evidence on manual retries or partial data.
+            previous = json.loads(receipt.read_text(encoding="utf-8"))
+            seen = {row["trade_id"] for row in previous.get("fills", [])}
+            combined = previous.get("fills", []) + [
+                row for row in result["fills"] if row["trade_id"] not in seen
+            ]
+            result["fills"] = combined
+            result["simulated_fills"] = len(combined)
+        receipt.write_text(
             json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
         portfolio.save(args.root / "portfolio.json")
