@@ -3,20 +3,20 @@
   "season": "2026-11-05-paper-game-100k",
   "mode": "PAPER_ONLY",
   "decision_at_warsaw": "2026-11-05T15:00:00+01:00",
-  "first_eligible_fill_date": "2026-11-05",
+  "first_eligible_fill_date": "2026-11-06",
   "initial_cash_pln": "100000.00",
   "currency": "PLN",
   "fill_method": "SAME_DAY_UNADJUSTED_CLOSE_EOD_PROXY_NOT_EXECUTABLE",
   "fee_rate": "0.0025",
   "max_position_weight": 0.35,
-  "min_initial_cash_reserve_pln": "20000.00",
+  "min_initial_cash_reserve_pln": "0.00",
   "risk_alarm_equity_pln": "90000.00",
   "one_time_initial_targets": [
     {
       "ticker": "VWCE.DE",
       "market": "XETRA",
       "ccy": "EUR",
-      "target_pln": "35000.00",
+      "target_pln": "34912.50",
       "role": "Global equities, broad exposure",
       "isin": "IE00BK5BQT80"
     },
@@ -24,7 +24,7 @@
       "ticker": "SXRV.DE",
       "market": "XETRA",
       "ccy": "EUR",
-      "target_pln": "15000.00",
+      "target_pln": "24937.50",
       "role": "Nasdaq 100 technology/growth tilt",
       "isin": "IE00B53SZB19"
     },
@@ -32,26 +32,26 @@
       "ticker": "ETFBW20TR.WA",
       "market": "GPW",
       "ccy": "PLN",
-      "target_pln": "10000.00",
+      "target_pln": "14962.50",
       "role": "Polish large-cap dividend-adjusted index"
     },
     {
       "ticker": "ETFBM40TR.WA",
       "market": "GPW",
       "ccy": "PLN",
-      "target_pln": "10000.00",
+      "target_pln": "14962.50",
       "role": "Polish mid-cap dividend-adjusted index"
     },
     {
       "ticker": "4GLD.DE",
       "market": "XETRA",
       "ccy": "EUR",
-      "target_pln": "10000.00",
+      "target_pln": "9975.00",
       "role": "Gold ETC, not UCITS ETF; issuer/custody risk",
       "isin": "DE000A0S9GB0"
     }
   ],
-  "event_reserve_pln": "20000.00",
+  "event_reserve_pln": "0.00",
   "rules": [
     "Never buy without dated completed raw close and corresponding dated official NBP FX",
     "First purchase only in market data from 2026-11-05 or later; never backfill an earlier bar",
@@ -60,6 +60,34 @@
     "GDELT headlines and political disclosures are research leads only; no automatic event-driven orders",
     "No automatic selling based on unsupported news predictions",
     "If a target price is missing, skip that instrument and preserve cash; retry on later sessions",
-    "Keep separate 2026-11-04 PLN 10k experiment archived as an old edition; do not fabricate its performance"
-  ]
+    "Keep separate 2026-11-04 PLN 10k experiment archived as an old edition; do not fabricate its performance",
+    "Allocation revision applies prospectively from 2026-11-06; do not use a close preceding the revision decision. Total notional budgets PLN 99750 plus 0.25% fees PLN 249.375; round down units and preserve residual cash. No mandatory reserve does not require buying without verified data."
+  ],
+  "allocation_revision": {
+    "authorized_at": "2026-11-05T19:56:41.541Z",
+    "reason": "User authorizes up to full PLN 100000 including fees for learning-only simulation; no real-money authorization",
+    "previous_targets": [
+      {
+        "ticker": "VWCE.DE",
+        "target_pln": "35000.00"
+      },
+      {
+        "ticker": "SXRV.DE",
+        "target_pln": "15000.00"
+      },
+      {
+        "ticker": "ETFBW20TR.WA",
+        "target_pln": "10000.00"
+      },
+      {
+        "ticker": "ETFBM40TR.WA",
+        "target_pln": "10000.00"
+      },
+      {
+        "ticker": "4GLD.DE",
+        "target_pln": "10000.00"
+      }
+    ],
+    "previous_reserve_pln": "20000.00"
+  }
 }
