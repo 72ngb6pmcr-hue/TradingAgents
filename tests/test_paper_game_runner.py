@@ -51,7 +51,7 @@ def test_initial_paper_fills_are_replayable_and_idempotent():
     assert portfolio.cash_pln >= Decimal("20000")
     assert portfolio.cash_pln < Decimal("100000")
     assert all(tx["fee_pln"] != "0.00" for tx in portfolio.transactions)
-    assert portfolio.valuation({"VWCE.DE": "450", "ETFBW20TR.WA": "100"})["total_pnl_pln"] < "0"
+    assert Decimal(portfolio.valuation({"VWCE.DE": "450", "ETFBW20TR.WA": "100"})["total_pnl_pln"]) < 0
     second = run_game(portfolio, strategy(), now=THURSDAY, close_loader=quote, fx_loader=fx)
     assert second["simulated_fills"] == 0
     assert len(portfolio.transactions) == 2
