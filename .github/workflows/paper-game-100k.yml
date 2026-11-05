@@ -1,0 +1,84 @@
+name: Simulated portfolio 100k — close proxy (NO real orders)
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Warsaw 19:40 weekdays; both CET and CEST, local-time gate in Python.
+    - cron: "40 17,18 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: paper-game-100k
+  cancel-in-progress: false
+
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install market quote dependencies
+        run: python -m pip install "yfinance>=0.2,<2" "pandas>=2,<4"
+      - name: Paper-only close proxy fill and portfolio valuation
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            python -m tradingagents.agents.paper_game_runner --enforce-window
+          else
+            python -m tradingagents.agents.paper_game_runner --enforce-window
+          fi
+      - name: Publish auditable simulation summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as out:
+              out.write("## 100,000 PLN simulated portfolio — NO broker orders\n\n")
+              ledger = Path("paper-game/portfolio.json")
+              if not ledger.exists():
+                  out.write("CRITICAL: Ledger unavailable.\n")
+              else:
+                  data = json.loads(ledger.read_text(encoding="utf-8"))
+                  out.write(f"Recorded simulated entries: {len(data['transactions'])}; cash: {data['cash_pln']} PLN.\n\n")
+              from datetime import datetime
+              from zoneinfo import ZoneInfo
+              today = datetime.now(ZoneInfo("Europe/Warsaw")).date().isoformat()
+              receipt = Path("paper-game/receipts") / f"{today}.json"
+              if receipt.exists():
+                  info = json.loads(receipt.read_text(encoding="utf-8"))
+                  out.write(f"Data status: {info['status']}; new proxy fills: {info['simulated_fills']}\n\n")
+                  for row in info["fills"]:
+                      out.write(f"- **PAPER ONLY** {row['ticker']}: {row['quantity']} units at indicative {row['price_pln']} PLN incl FX reference, plus {row['fee_pln']} PLN fee.\n")
+                  for err in info["errors"]:
+                      out.write(f"- Pending/data issue: {err.get('ticker', '-')}: {err['status']}\n")
+                  out.write("\nDaily-close proxies are hypothetical, not tradeable quotes. **NO REAL ORDERS**.\n")
+          PY
+      - name: Save simulated receipts to repository
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper-game/portfolio.json paper-game/receipts
+          if ! git diff --cached --quiet; then
+            git commit -m "paper: record dated 100k simulated close-proxy session [skip ci]"
+            git push origin HEAD:main
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: paper-game-${{ github.run_id }}
+          path: |
+            paper-game/portfolio.json
+            paper-game/receipts/
+          if-no-files-found: ignore
+          retention-days: 90
