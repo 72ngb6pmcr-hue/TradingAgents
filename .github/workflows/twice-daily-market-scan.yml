@@ -52,6 +52,13 @@ jobs:
                   f.write("|---|---|---:|---:|---:|---|\n")
                   for item in d["candidates"]:
                       f.write(f"| {item['ticker']} | {item['market']} | {item.get('adjusted_close_native', '-')} | {item.get('strength_score', '-')} | {item.get('momentum_20d_pct', '-')} | {item['status']} |\n")
+                  f.write("\n### Retrospective comparison (PLN listings only)\n\n")
+                  f.write("| Ticker | MA strategy net PLN | Buy/hold net PLN | Difference PLN |\n|---|---:|---:|---:|\n")
+                  for item in d["candidates"]:
+                      b = item.get("retrospective_baselines", {})
+                      if "buy_and_hold" in b:
+                          f.write(f"| {item['ticker']} | {b['moving_average_crossover']['net_pnl_pln']} | {b['buy_and_hold']['net_pnl_pln']} | {b['difference_vs_buy_hold_pln']} |\n")
+                  f.write("\nHistorical adjusted closes are hypothetical fills, not a live track record or forecast.\n")
           PY
       - uses: actions/upload-artifact@v4
         if: always()
