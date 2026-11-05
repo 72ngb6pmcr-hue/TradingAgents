@@ -68,7 +68,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add paper-game/portfolio.json paper-game/receipts
+          git add -A paper-game/
           if ! git diff --cached --quiet; then
             git commit -m "paper: record dated 100k simulated close-proxy session [skip ci]"
             git push origin HEAD:main
