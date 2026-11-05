@@ -11,6 +11,7 @@ Spread, price slippage, exchange charges and taxes are excluded.
 from __future__ import annotations
 
 from decimal import Decimal
+
 from tradingagents.agents.paper_portfolio import _decimal, _money
 
 BASE_FX_RATE = Decimal("0.005")
