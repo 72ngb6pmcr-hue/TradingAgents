@@ -8,7 +8,7 @@ converted point-in-time PLN prices; this function cannot do FX conversion.
 """
 from __future__ import annotations
 
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
 CENT = Decimal("0.01")
