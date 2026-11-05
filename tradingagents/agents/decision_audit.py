@@ -6,8 +6,8 @@ Portfolio Manager rating. Missing evidence must be reviewed by a human.
 
 from __future__ import annotations
 
-from typing import Any
 import re
+from typing import Any
 
 from tradingagents.agents.rating import RATINGS_5_TIER, RATING_REVIEW, parse_rating
 
