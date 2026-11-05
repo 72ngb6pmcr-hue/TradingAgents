@@ -7,7 +7,7 @@ explicit execution in the PAPER_ONLY ledger after review.
 
 from __future__ import annotations
 
-from decimal import Decimal, ROUND_FLOOR
+from decimal import ROUND_FLOOR, Decimal
 from typing import Any
 
 from tradingagents.agents.decision_audit import audit_decision
