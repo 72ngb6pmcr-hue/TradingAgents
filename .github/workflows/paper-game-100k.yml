@@ -3,8 +3,8 @@ name: Simulated portfolio 100k — close proxy (NO real orders)
 on:
   workflow_dispatch:
   schedule:
-    # Warsaw 19:40 weekdays; both CET and CEST, local-time gate in Python.
-    - cron: "40 17,18 * * 1-5"
+    # Retry at Warsaw 21:40 when vendor daily bars may arrive late; idempotent trade IDs.
+    - cron: "40 17,18,19,20 * * 1-5"
 
 permissions:
   contents: write
