@@ -50,7 +50,11 @@ jobs:
               report_path = Path("paper-game/latest-report.json")
               if report_path.exists():
                   report = json.loads(report_path.read_text(encoding="utf-8"))
-                  out.write(f"Latest verified EOD: {report[\u0027latest_session\u0027] or \u0027UNAVAILABLE\u0027}; equity: {report[\u0027equity_pln\u0027] or \u0027UNAVAILABLE\u0027} PLN; P/L: {report[\u0027total_pnl_pln\u0027] or \u0027UNAVAILABLE\u0027} PLN; daily change: {report[\u0027day_change_pln\u0027] or \u0027UNAVAILABLE\u0027} PLN.\\n\\n")
+                  latest = report.get("latest_session") or "UNAVAILABLE"
+                  equity = report.get("equity_pln") or "UNAVAILABLE"
+                  pnl = report.get("total_pnl_pln") or "UNAVAILABLE"
+                  change = report.get("day_change_pln") or "UNAVAILABLE"
+                  out.write(f"Latest verified EOD: {latest}; equity: {equity} PLN; P/L: {pnl} PLN; daily change: {change} PLN.\\n\\n")
               ledger = Path("paper-game/portfolio.json")
               if not ledger.exists():
                   out.write("CRITICAL: Ledger unavailable.\n")
