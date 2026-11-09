@@ -58,10 +58,10 @@ def run_game(
         raise ValueError("Unknown execution price model")
 
     day = now.astimezone(WARSAW).date()
-    if day.isoformat() < strategy["first_eligible_fill_date"]:
+    if day.isoformat() < strategy.get("first_eligible_fill_date", START_DAY):
         return {"status": "WAIT_FOR_FIRST_ELIGIBLE_SESSION", "fills": [],
                 "errors": [], "trade_executed": False}
-    reserve = Decimal(str(strategy["min_initial_cash_reserve_pln"]))
+    reserve = Decimal(str(strategy.get("min_initial_cash_reserve_pln", strategy.get("event_reserve_pln", "0"))))
     errors: list[dict] = []
     receipts: list[dict] = []
     prices: dict[str, str] = {}
