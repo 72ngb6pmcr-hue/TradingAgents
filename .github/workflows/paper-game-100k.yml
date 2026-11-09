@@ -3,8 +3,8 @@ name: Simulated portfolio 100k — close proxy (NO real orders)
 on:
   workflow_dispatch:
   schedule:
-    # Warsaw 19:40 weekdays; both CET and CEST, local-time gate in Python.
-    - cron: "40 17,18 * * 1-5"
+    # Retry at Warsaw 21:40 when vendor daily bars may arrive late; idempotent trade IDs.
+    - cron: "40 17,18,19,20 * * 1-5"
 
 permissions:
   contents: write
@@ -34,6 +34,9 @@ jobs:
           else
             python -m tradingagents.agents.paper_game_runner --enforce-window
           fi
+      - name: Verify receipt provenance and calculate PLN PnL (read only)
+        if: success()
+        run: python -m tradingagents.agents.paper_game_report > paper-game/latest-report.json
       - name: Publish auditable simulation summary
         if: always()
         run: |
@@ -44,6 +47,14 @@ jobs:
 
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as out:
               out.write("## 100,000 PLN simulated portfolio — NO broker orders\n\n")
+              report_path = Path("paper-game/latest-report.json")
+              if report_path.exists():
+                  report = json.loads(report_path.read_text(encoding="utf-8"))
+                  latest = report.get("latest_session") or "UNAVAILABLE"
+                  equity = report.get("equity_pln") or "UNAVAILABLE"
+                  pnl = report.get("total_pnl_pln") or "UNAVAILABLE"
+                  change = report.get("day_change_pln") or "UNAVAILABLE"
+                  out.write(f"Latest verified EOD: {latest}; equity: {equity} PLN; P/L: {pnl} PLN; daily change: {change} PLN.\\n\\n")
               ledger = Path("paper-game/portfolio.json")
               if not ledger.exists():
                   out.write("CRITICAL: Ledger unavailable.\n")
@@ -80,5 +91,6 @@ jobs:
           path: |
             paper-game/portfolio.json
             paper-game/receipts/
+            paper-game/latest-report.json
           if-no-files-found: ignore
           retention-days: 90
