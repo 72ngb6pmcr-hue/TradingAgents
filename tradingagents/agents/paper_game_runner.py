@@ -58,7 +58,10 @@ def run_game(
         raise ValueError("Unknown execution price model")
 
     day = now.astimezone(WARSAW).date()
-    reserve = Decimal(str(strategy["event_reserve_pln"]))
+    if day.isoformat() < strategy["first_eligible_fill_date"]:
+        return {"status": "WAIT_FOR_FIRST_ELIGIBLE_SESSION", "fills": [],
+                "errors": [], "trade_executed": False}
+    reserve = Decimal(str(strategy["min_initial_cash_reserve_pln"]))
     errors: list[dict] = []
     receipts: list[dict] = []
     prices: dict[str, str] = {}
@@ -161,7 +164,7 @@ def main(argv=None) -> int:
     portfolio = PaperPortfolio.load(args.root / "portfolio.json")
     result = run_game(portfolio, strategy, now=now)
     # The quote receipts are persisted independently, one file per session.
-    if result.get("status") != "WAIT_FOR_COMPLETED_SESSION":
+    if result.get("status") not in {"WAIT_FOR_COMPLETED_SESSION", "WAIT_FOR_FIRST_ELIGIBLE_SESSION"}:
         args.root.joinpath("receipts").mkdir(parents=True, exist_ok=True)
         receipt = args.root / "receipts" / (result["session_date"] + ".json")
         if receipt.exists():
