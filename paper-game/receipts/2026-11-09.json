@@ -1,0 +1,125 @@
+{
+  "status": "PARTIAL_DATA",
+  "mode": "PAPER_ONLY",
+  "trade_executed": false,
+  "simulated_fills": 2,
+  "fills": [
+    {
+      "status": "PAPER_FILL_EOD_PROXY_NOT_EXECUTABLE",
+      "trade_id": "initial-20261105-ETFBW20TR.WA",
+      "date": "2026-11-09",
+      "side": "BUY",
+      "ticker": "ETFBW20TR.WA",
+      "quantity": 172,
+      "price_pln": "86.48",
+      "gross_pln": "14874.56",
+      "fee_pln": "37.19",
+      "realized_pnl_pln": "0.00",
+      "fee_rate": "0.0025",
+      "instrument": "Polish large-cap dividend-adjusted index",
+      "market": "GPW",
+      "instrument_currency": "PLN",
+      "quote_and_fx": {
+        "quote": {
+          "symbol": "ETFBW20TR.WA",
+          "date": "2026-11-09",
+          "close_native": "86.48",
+          "volume": "25395",
+          "source": "https://gielda360.pl/en/etf/ETFBW20TR",
+          "corroborating_source": "https://www.bankier.pl/etf/dlugoterminowe-stopy-zwrotu",
+          "quoted_at": "2026-11-09T17:01:00+01:00",
+          "executable": false
+        },
+        "fx": {
+          "ccy": "PLN",
+          "date": "2026-11-09",
+          "pln_per_unit": "1",
+          "source": "Domestic PLN"
+        },
+        "reference_price_pln": "86.48"
+      },
+      "time_model": "Allocation authorized before session; delayed verification of same-day unadjusted closing proxy. Actual execution at this price is not guaranteed.",
+      "broker_order_sent": false
+    },
+    {
+      "status": "PAPER_FILL_EOD_PROXY_NOT_EXECUTABLE",
+      "trade_id": "initial-20261105-ETFBM40TR.WA",
+      "date": "2026-11-09",
+      "side": "BUY",
+      "ticker": "ETFBM40TR.WA",
+      "quantity": 85,
+      "price_pln": "174.92",
+      "gross_pln": "14868.20",
+      "fee_pln": "37.17",
+      "realized_pnl_pln": "0.00",
+      "fee_rate": "0.0025",
+      "instrument": "Polish mid-cap dividend-adjusted index",
+      "market": "GPW",
+      "instrument_currency": "PLN",
+      "quote_and_fx": {
+        "quote": {
+          "symbol": "ETFBM40TR.WA",
+          "date": "2026-11-09",
+          "close_native": "174.92",
+          "volume": "11142",
+          "source": "https://gielda360.pl/etf",
+          "corroborating_source": "https://www.bankier.pl/etf/dlugoterminowe-stopy-zwrotu",
+          "quoted_at": "2026-11-09T17:01:00+01:00",
+          "executable": false
+        },
+        "fx": {
+          "ccy": "PLN",
+          "date": "2026-11-09",
+          "pln_per_unit": "1",
+          "source": "Domestic PLN"
+        },
+        "reference_price_pln": "174.92"
+      },
+      "time_model": "Allocation authorized before session; delayed verification of same-day unadjusted closing proxy. Actual execution at this price is not guaranteed.",
+      "broker_order_sent": false
+    }
+  ],
+  "errors": [
+    {
+      "ticker": "VWCE.DE",
+      "status": "PENDING_MISSING_OR_INVALID_DATA",
+      "reason": "Complete dated same-session raw close and volume not verified together."
+    },
+    {
+      "ticker": "SXRV.DE",
+      "status": "PENDING_MISSING_OR_INVALID_DATA",
+      "reason": "Complete dated same-session raw close and volume not verified together."
+    },
+    {
+      "ticker": "4GLD.DE",
+      "status": "PENDING_MISSING_OR_INVALID_DATA",
+      "reason": "Complete dated same-session raw close and volume not verified together."
+    }
+  ],
+  "valuation": {
+    "currency": "PLN",
+    "cash_pln": "70182.88",
+    "market_value_pln": "29742.76",
+    "equity_pln": "99925.64",
+    "total_pnl_pln": "-74.36",
+    "realized_pnl_pln": "0.00",
+    "holdings": {
+      "ETFBW20TR.WA": {
+        "quantity": 172,
+        "cost_basis_pln": "14911.75",
+        "market_value_pln": "14874.56",
+        "unrealized_pnl_pln": "-37.19"
+      },
+      "ETFBM40TR.WA": {
+        "quantity": 85,
+        "cost_basis_pln": "14905.37",
+        "market_value_pln": "14868.20",
+        "unrealized_pnl_pln": "-37.17"
+      }
+    }
+  },
+  "session_date": "2026-11-09",
+  "processed_at_warsaw": "2026-11-09T19:58:00+01:00",
+  "cost_model": "0.25% per side; full units; target caps include fees as in runner; no spread, slippage or tax",
+  "warning": "PAPER_FILL_EOD_PROXY: closing price is hypothetical, not guaranteed executable; NO REAL ORDERS."
+}
