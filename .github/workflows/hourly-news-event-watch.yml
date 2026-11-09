@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install environment dependency
+        run: python -m pip install "python-dotenv>=1,<2"
       - name: Discover news leads
         run: python -m tradingagents.agents.news_event_watch
       - name: Summarize unverified references
