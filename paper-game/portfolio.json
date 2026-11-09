@@ -3,8 +3,42 @@
   "mode": "PAPER_ONLY",
   "currency": "PLN",
   "initial_cash_pln": "100000.00",
-  "cash_pln": "100000.00",
+  "cash_pln": "70182.88",
   "realized_pnl_pln": "0.00",
-  "positions": {},
-  "transactions": []
+  "positions": {
+    "ETFBW20TR.WA": {
+      "quantity": 172,
+      "cost_basis_pln": "14911.75"
+    },
+    "ETFBM40TR.WA": {
+      "quantity": 85,
+      "cost_basis_pln": "14905.37"
+    }
+  },
+  "transactions": [
+    {
+      "trade_id": "initial-20261105-ETFBW20TR.WA",
+      "date": "2026-11-09",
+      "side": "BUY",
+      "ticker": "ETFBW20TR.WA",
+      "quantity": 172,
+      "price_pln": "86.48",
+      "gross_pln": "14874.56",
+      "fee_pln": "37.19",
+      "realized_pnl_pln": "0.00",
+      "fee_rate": "0.0025"
+    },
+    {
+      "trade_id": "initial-20261105-ETFBM40TR.WA",
+      "date": "2026-11-09",
+      "side": "BUY",
+      "ticker": "ETFBM40TR.WA",
+      "quantity": 85,
+      "price_pln": "174.92",
+      "gross_pln": "14868.20",
+      "fee_pln": "37.17",
+      "realized_pnl_pln": "0.00",
+      "fee_rate": "0.0025"
+    }
+  ]
 }
