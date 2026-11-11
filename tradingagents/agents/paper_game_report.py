@@ -21,7 +21,8 @@ def build_report(root: Path) -> dict:
         if data.get("session_date") != path.stem or date.fromisoformat(path.stem) < date(2026, 11, 5):
             raise ValueError(f"Invalid receipt date: {path}")
         receipts.append(data)
-    recorded_ids = {tx["trade_id"] for tx in portfolio.transactions}
+    recorded_by_id = {tx["trade_id"]: tx for tx in portfolio.transactions}
+    recorded_ids = set(recorded_by_id)
     evidenced_ids = set()
     for receipt in receipts:
         for fill in receipt.get("fills", []):
@@ -35,7 +36,15 @@ def build_report(root: Path) -> dict:
                 or not quote.get("source") or not fx.get("source")
                 or fill.get("broker_order_sent") is not False):
                 raise ValueError("Fill lacks dated price/FX provenance")
-            evidenced_ids.add(fill["trade_id"])
+            trade_id = fill["trade_id"]
+            if trade_id in evidenced_ids:
+                raise ValueError("Duplicate receipt trade ID")
+            if trade_id not in recorded_by_id:
+                raise ValueError("Receipt trade absent from journal")
+            if any(fill.get(key) != recorded_by_id[trade_id].get(key)
+                   for key in recorded_by_id[trade_id]):
+                raise ValueError("Receipt and ledger trade values differ")
+            evidenced_ids.add(trade_id)
     if recorded_ids != evidenced_ids:
         raise ValueError("Ledger transactions do not match dated fill receipts")
 
@@ -51,6 +60,7 @@ def build_report(root: Path) -> dict:
         "real_orders": 0,
         "valuation_status": "VERIFIED_EOD_PROXY" if latest else "UNAVAILABLE",
         "latest_session": latest[0] if latest else None,
+        "valuation_provenance": "STORED_RECEIPT_NOT_INDEPENDENT_PRICE_VERIFICATION",
         "equity_pln": latest[1]["equity_pln"] if latest else None,
         "total_pnl_pln": latest[1]["total_pnl_pln"] if latest else None,
         "holdings": latest[1].get("holdings") if latest else None,
