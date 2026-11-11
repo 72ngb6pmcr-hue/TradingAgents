@@ -20,14 +20,17 @@ jobs:
       - name: Run offline regression tests
         run: python -m unittest discover -s tests -p 'test_supply_chain_forecast.py' -v
           python -m unittest discover -s tests -p 'test_structural_market.py' -v
+          python -m unittest discover -s tests -p 'test_forecast_calibration.py' -v
       - name: Build read-only graph and explicitly empty observations
         run: |
           python -m tradingagents.agents.supply_chain_forecast
           python -m tradingagents.agents.structural_market
+          python -m tradingagents.agents.forecast_calibration
       - uses: actions/upload-artifact@v4
         with:
           name: supply-chain-scenarios-${{ github.run_id }}
           path: |
             scan-output/supply_chain_scenarios.json
             scan-output/structural_market_report.json
+            scan-output/forecast_calibration.json
           retention-days: 14
