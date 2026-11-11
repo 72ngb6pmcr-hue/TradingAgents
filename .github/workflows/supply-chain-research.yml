@@ -1,0 +1,28 @@
+name: Supply chain research graph (no orders)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 6 * * 1-5"
+
+permissions:
+  contents: read
+
+jobs:
+  supply-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run offline regression tests
+        run: python -m unittest discover -s tests -p 'test_supply_chain_forecast.py' -v
+      - name: Build read-only graph and explicitly empty observations
+        run: python -m tradingagents.agents.supply_chain_forecast
+      - uses: actions/upload-artifact@v4
+        with:
+          name: supply-chain-scenarios-${{ github.run_id }}
+          path: scan-output/supply_chain_scenarios.json
+          retention-days: 14
