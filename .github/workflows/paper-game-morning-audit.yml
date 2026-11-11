@@ -1,0 +1,40 @@
+name: Paper game 100k - morning audit (READ ONLY)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 6 * * 1-6"
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate source-of-truth ledger and print latest dated PnL
+        run: |
+          python -m tradingagents.agents.paper_game_report > paper-game/latest-report.json
+          python - <<'PY'
+          import json, os
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          from pathlib import Path
+          report=json.loads(Path("paper-game/latest-report.json").read_text())
+          today=datetime.now(ZoneInfo("Europe/Warsaw")).date().isoformat()
+          session=report.get("latest_session")
+          stale=not session or session < today
+          with open(os.environ["GITHUB_STEP_SUMMARY"],"a") as f:
+              f.write("## Paper game audit — NO ORDERS\n\n")
+              f.write(f"Last dated valuation: {session or 'UNAVAILABLE'}; equity: {report.get('equity_pln')}; P/L: {report.get('total_pnl_pln')}; cash: {report['cash_pln']}; entries: {report['confirmed_paper_transactions']}.\n\n")
+              f.write("STALE/NO CURRENT MARK — do not call this today's P/L.\n" if stale else "Same-day receipt exists.\n")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: paper-game-morning-audit-${{ github.run_id }}
+          path: paper-game/latest-report.json
+          if-no-files-found: warn
+          retention-days: 30
