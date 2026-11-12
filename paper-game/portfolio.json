@@ -3,7 +3,7 @@
   "mode": "PAPER_ONLY",
   "currency": "PLN",
   "initial_cash_pln": "100000.00",
-  "cash_pln": "70182.88",
+  "cash_pln": "35386.35",
   "realized_pnl_pln": "0.00",
   "positions": {
     "ETFBW20TR.WA": {
@@ -13,6 +13,10 @@
     "ETFBM40TR.WA": {
       "quantity": 85,
       "cost_basis_pln": "14905.37"
+    },
+    "VWCE.DE": {
+      "quantity": 46,
+      "cost_basis_pln": "34796.53"
     }
   },
   "transactions": [
@@ -39,6 +43,28 @@
       "fee_pln": "37.17",
       "realized_pnl_pln": "0.00",
       "fee_rate": "0.0025"
+    },
+    {
+      "trade_id": "initial-20261105-VWCE.DE",
+      "date": "2026-11-12",
+      "side": "BUY",
+      "ticker": "VWCE.DE",
+      "quantity": 46,
+      "price_pln": "754.56",
+      "gross_pln": "34709.76",
+      "fee_pln": "86.77",
+      "realized_pnl_pln": "0.00",
+      "fee_rate": "0.0025",
+      "status": "PAPER_FILL_EOD_PROXY",
+      "market": "XETRA",
+      "currency": "EUR",
+      "price_local": "171.42",
+      "quoted_at": "2026-11-12T17:35:51+01:00",
+      "fx_pln": "4.4018",
+      "fx_table": "220/A/NBP/2026",
+      "execution_guaranteed": false,
+      "price_source": "https://www.boursorama.com/bourse/trackers/cours/1zVWCE/",
+      "fx_source": "https://kursy.walut.pl/kurs/eur/2026"
     }
   ]
 }
