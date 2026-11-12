@@ -34,6 +34,9 @@ jobs:
           python -m tradingagents.agents.hourly_causal_experiment \
             --output-root research-data/causal-72h \
             | tee experiment-status.jsonl
+      - name: Update cumulative audit summary
+        if: success()
+        run: python -m tradingagents.agents.hourly_causal_report
       - name: Summarize the work and any missing vendor data
         if: always()
         run: |
