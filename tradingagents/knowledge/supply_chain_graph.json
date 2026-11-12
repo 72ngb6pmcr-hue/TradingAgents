@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "scope": "Qualitative causal hypothesis graph, not empirically calibrated",
+  "nodes": [
+    {
+      "id": "crude_supply",
+      "label": "Physical crude supply"
+    },
+    {
+      "id": "oil_price",
+      "label": "Brent/WTI crude price"
+    },
+    {
+      "id": "producer_revenue",
+      "label": "Oil producer revenue, conditional on barrels sold"
+    },
+    {
+      "id": "refining_cost",
+      "label": "Refining crude feedstock cost"
+    },
+    {
+      "id": "jet_fuel",
+      "label": "Jet fuel price"
+    },
+    {
+      "id": "airline_cost",
+      "label": "Airline operating fuel cost"
+    },
+    {
+      "id": "petrochemical_feedstock",
+      "label": "Petrochemical feedstock cost"
+    },
+    {
+      "id": "plastics_margins",
+      "label": "Plastics producer gross margin"
+    },
+    {
+      "id": "oil_inventory",
+      "label": "Available oil inventories"
+    },
+    {
+      "id": "consumer_demand",
+      "label": "Final-product demand"
+    },
+    {
+      "id": "airline_equity",
+      "label": "Airline equity valuation"
+    },
+    {
+      "id": "oil_equity",
+      "label": "Oil producer equity valuation"
+    }
+  ],
+  "edges": [
+    {
+      "from": "crude_supply",
+      "to": "oil_price",
+      "sign": -1,
+      "mechanism": "Available barrels vs demand",
+      "conditions": [
+        "No equivalent offset from inventories or spare capacity"
+      ]
+    },
+    {
+      "from": "oil_inventory",
+      "to": "oil_price",
+      "sign": -1,
+      "mechanism": "Stock buffers soften scarcity",
+      "conditions": [
+        "Inventory can be drawn rapidly"
+      ]
+    },
+    {
+      "from": "oil_price",
+      "to": "producer_revenue",
+      "sign": 1,
+      "mechanism": "Revenue per barrel increases",
+      "conditions": [
+        "Producer sells barrels; volume change does not outweigh price"
+      ]
+    },
+    {
+      "from": "producer_revenue",
+      "to": "oil_equity",
+      "sign": 1,
+      "mechanism": "Potential earnings and valuation impact",
+      "conditions": [
+        "Costs, hedges, taxes and expected future oil prices do not dominate"
+      ]
+    },
+    {
+      "from": "oil_price",
+      "to": "refining_cost",
+      "sign": 1,
+      "mechanism": "Feedstock input costs",
+      "conditions": [
+        "Crude supply contracts pass through"
+      ]
+    },
+    {
+      "from": "oil_price",
+      "to": "jet_fuel",
+      "sign": 1,
+      "mechanism": "Feedstock energy cost",
+      "conditions": [
+        "Crack spread and refinery constraints stable"
+      ]
+    },
+    {
+      "from": "jet_fuel",
+      "to": "airline_cost",
+      "sign": 1,
+      "mechanism": "Airline fuel costs",
+      "conditions": [
+        "Hedge coverage and contracts permit repricing"
+      ]
+    },
+    {
+      "from": "airline_cost",
+      "to": "airline_equity",
+      "sign": -1,
+      "mechanism": "Potential margin erosion",
+      "conditions": [
+        "Fare pass-through, hedges, demand, FX do not offset"
+      ]
+    },
+    {
+      "from": "oil_price",
+      "to": "petrochemical_feedstock",
+      "sign": 1,
+      "mechanism": "Feedstock costs",
+      "conditions": [
+        "Oil-derived vs gas feedstocks and local contracts"
+      ]
+    },
+    {
+      "from": "petrochemical_feedstock",
+      "to": "plastics_margins",
+      "sign": -1,
+      "mechanism": "Potential gross margin pressure",
+      "conditions": [
+        "Finished product price and demand unchanged"
+      ]
+    },
+    {
+      "from": "consumer_demand",
+      "to": "plastics_margins",
+      "sign": 1,
+      "mechanism": "Sales volume and price support",
+      "conditions": [
+        "Production capacity and pricing"
+      ]
+    }
+  ]
+}
