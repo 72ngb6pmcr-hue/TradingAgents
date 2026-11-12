@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "methodology": "Evidence-backed historical cases; ex-post reports are not point-in-time trading signals. Quantitative equity outcomes intentionally unpopulated until sourced, timestamped data exists.",
+  "event_types": [
+    {
+      "id": "PHYSICAL_OIL_OUTAGE",
+      "description": "Confirmed crude-oil production loss",
+      "mechanism": "Less crude physically available, potential upward price pressure if not offset",
+      "key_modifiers": [
+        "outage_bpd",
+        "expected_recovery_days",
+        "spare_capacity_bpd",
+        "strategic_reserves",
+        "inventory_levels",
+        "demand_conditions"
+      ]
+    },
+    {
+      "id": "OIL_SUPPLY_RISK_ONLY",
+      "description": "Geopolitical escalation without demonstrated lost barrels",
+      "mechanism": "A temporary risk premium may appear and reverse even if physical supply remains stable",
+      "key_modifiers": [
+        "verified_transit_loss",
+        "risk_premium",
+        "inventory_levels",
+        "event_reversal"
+      ]
+    },
+    {
+      "id": "OIL_DEMAND_SHOCK",
+      "description": "Significant change in demand for crude",
+      "mechanism": "Demand reduction may overwhelm supply-related bullish headlines",
+      "key_modifiers": [
+        "economic_growth",
+        "inventory_change",
+        "substitution",
+        "demand_elasticity"
+      ]
+    }
+  ],
+  "historical_cases": [
+    {
+      "id": "2019-saudi-abqaiq-outage",
+      "event_type": "PHYSICAL_OIL_OUTAGE",
+      "event_date": "2019-09-14",
+      "first_public_at": null,
+      "verified_after_event": true,
+      "observed_effect": "Major Brent price increase at first post-attack market opening, followed by reversal as recovery clarified",
+      "source_urls": [
+        "https://www.eia.gov/TodayinEnergy/detail.php?id=41413",
+        "https://www.eia.gov/TODAYinENERGY/detail.php?id=42675",
+        "https://documents1.worldbank.org/curated/en/697771572367279523/pdf/Commodity-Markets-Outlook.pdf"
+      ],
+      "physical_supply_disruption": true,
+      "reporting_as_of": "2020-01-31",
+      "equity_market_outcomes": [],
+      "evidence_status": "DOCUMENTED_POST_EVENT_NON_TRADEABLE"
+    },
+    {
+      "id": "2020-iraq-escalation-risk",
+      "event_type": "OIL_SUPPLY_RISK_ONLY",
+      "event_date": "2020-01-02",
+      "first_public_at": null,
+      "verified_after_event": true,
+      "observed_effect": "Oil price initially rose then reversed despite no verified direct physical supply disruption",
+      "source_urls": [
+        "https://www.eia.gov/TODAYinENERGY/detail.php?id=42675"
+      ],
+      "physical_supply_disruption": false,
+      "reporting_as_of": "2020-01-31",
+      "equity_market_outcomes": [],
+      "evidence_status": "DOCUMENTED_POST_EVENT_NON_TRADEABLE"
+    },
+    {
+      "id": "2022-russia-ukraine-oil-shock",
+      "event_type": "PHYSICAL_OIL_OUTAGE",
+      "event_date": "2022-02-24",
+      "first_public_at": null,
+      "verified_after_event": true,
+      "observed_effect": "Oil prices rose in first half of 2022 amid war-related supply risks and low inventories, then declined in second half amid demand concerns and additional supply",
+      "source_urls": [
+        "https://www.eia.gov/todayinenergy/detail.php?id=55079"
+      ],
+      "physical_supply_disruption": null,
+      "reporting_as_of": "2023-01-04",
+      "equity_market_outcomes": [],
+      "evidence_status": "DOCUMENTED_POST_EVENT_NON_TRADEABLE"
+    }
+  ]
+}
