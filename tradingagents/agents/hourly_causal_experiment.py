@@ -160,15 +160,6 @@ def run_hour(*, now: datetime, loader, casebook: dict) -> dict:
     return output
 
 
-def yahoo_daily(symbol: str) -> dict[str, float]:
-    import yfinance as yf
-
-    bars = yf.Ticker(symbol).history(period="10y", interval="1d", auto_adjust=True)
-    if bars.empty:
-        raise ValueError("Empty Yahoo historical response")
-    return {index.date().isoformat(): float(row["Close"]) for index, row in bars.iterrows()}
-
-
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-root", type=Path, default=Path("research-data/causal-72h"))
@@ -181,6 +172,8 @@ def main(argv=None) -> int:
         return 0
     source = Path("tradingagents/knowledge/historical_event_cases.json")
     casebook = json.loads(source.read_text(encoding="utf-8"))
+    from tradingagents.dataflows.vendors.yahoo.hourly_causal import yahoo_daily
+
     result = run_hour(now=now, loader=yahoo_daily, casebook=casebook)
     args.output_root.mkdir(parents=True, exist_ok=True)
     target = args.output_root / f"iteration-{idx:02d}.json"
