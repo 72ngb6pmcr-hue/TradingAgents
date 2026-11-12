@@ -97,7 +97,7 @@ def empirical_probability(outcomes: list[dict], *, event_type: str,
     Wilson 95% interval quantifies sampling uncertainty, not model calibration.
     """
     cutoff = _parse_timestamp(as_of)
-    eligible: dict[str, bool] = {}
+    eligible: dict[str, bool | None] = {}
     for row in outcomes:
         if (row.get("event_type") != event_type
                 or row.get("instrument") != instrument
@@ -119,9 +119,7 @@ def empirical_probability(outcomes: list[dict], *, event_type: str,
         if entry_time >= settle_time or settle_time > cutoff:
             continue
         if event_id in eligible:
-            # Duplicate labels for one event must NOT inflate sample size.
-            eligible.pop(event_id)
-            # Prevent a third identical row from reviving an ambiguous event.
+            # A repeated event cannot contribute independent evidence.
             eligible[event_id] = None
             continue
         eligible[event_id] = row["direction_correct"]
