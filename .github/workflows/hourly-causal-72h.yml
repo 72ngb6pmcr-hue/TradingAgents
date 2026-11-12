@@ -1,0 +1,91 @@
+name: 72-hour causal correlation experiment (research only)
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run 13 minutes after UTC hour to avoid GitHub top-of-hour congestion.
+    # Time guard: 2026-11-12 04:00Z to 2026-11-15 04:00Z (72 hours).
+    - cron: "13 * * * *"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: causal-research-72h
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research/causal-72h-data
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install lightweight research market data library
+        run: python -m pip install "yfinance>=0.2,<2" "pandas>=2,<4" "python-dotenv>=1,<2"
+      - name: Evaluate predeclared hour and save dated research evidence
+        run: |
+          python -m tradingagents.agents.hourly_causal_experiment \
+            --output-root research-data/causal-72h \
+            | tee experiment-status.jsonl
+      - name: Summarize the work and any missing vendor data
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as out:
+              out.write("## Time-limited causal correlation experiment (NO TRADES)\n\n")
+              if not Path("experiment-status.jsonl").exists():
+                  out.write("Runner failed: no status.\n")
+              else:
+                  run = json.loads(Path("experiment-status.jsonl").read_text().strip().splitlines()[-1])
+                  out.write(f"State: **{run['status']}**, hour index: {run.get('iteration')}.\n\n")
+              data = sorted(Path("research-data/causal-72h").glob("iteration-??.json"))
+              out.write(f"Recorded iterations: **{len(data)}** / 72 possible hours.\n")
+              statuses = {}
+              for item in data:
+                  entry = json.loads(item.read_text(encoding="utf-8"))
+                  statuses[entry["status"]] = statuses.get(entry["status"], 0) + 1
+              out.write(f"Evidence status counts: {statuses}.\n\n")
+              out.write("These are retrospective commodity/sector associations, not causal probabilities or tradable news signals.\n")
+          PY
+      - name: Save distinct hourly results in separate research branch
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A research-data/causal-72h/
+          if ! git diff --cached --quiet; then
+            git commit -m "research: hourly retrospective association sample [skip ci]"
+            git push origin HEAD:research/causal-72h-data
+          fi
+      - name: Disable this temporary scheduled workflow after three days
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if python - <<'PY'
+          from datetime import datetime, timezone
+          from tradingagents.agents.hourly_causal_experiment import phase
+          raise SystemExit(0 if phase(datetime.now(timezone.utc))[0] == "DONE" else 1)
+          PY
+          then
+            gh api -X PUT "repos/${{ github.repository }}/actions/workflows/hourly-causal-72h.yml/disable"
+            echo "Temporary hourly workflow disabled after 72-hour window." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: causal-hourly-${{ github.run_id }}
+          path: |
+            experiment-status.jsonl
+            research-data/causal-72h/iteration-*.json
+          retention-days: 14
+          if-no-files-found: ignore
