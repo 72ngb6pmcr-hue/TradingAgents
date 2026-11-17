@@ -118,8 +118,5 @@ def main(argv=None) -> int:
             x.get("headline_only_potential_disruption", False) for x in result["topics"]
         ), "trades": 0,
     }))
-    return 0
-
-
-if __name__ == "__main__":
+    # A partial/unavailable GDELT response is not a successful discovery run.\n    # The JSON artifact is written above even when the job must fail.\n    return 2 if result["status"] == "DATA_REVIEW_REQUIRED" else 0\n\n\nif __name__ == "__main__":
     raise SystemExit(main())
