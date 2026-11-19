@@ -1,0 +1,225 @@
+{
+  "mode": "PAPER_ONLY",
+  "report_at": "2026-11-19T08:00:00+01:00",
+  "portfolio_source_blob_sha": "3d7e8297fd2af90aa0df0cd973425744f9870e84",
+  "portfolio_snapshot": {
+    "schema_version": 1,
+    "mode": "PAPER_ONLY",
+    "currency": "PLN",
+    "initial_cash_pln": "100000.00",
+    "cash_pln": "25878.98",
+    "realized_pnl_pln": "0.00",
+    "positions": {
+      "ETFBW20TR.WA": {
+        "quantity": 172,
+        "cost_basis_pln": "14911.75"
+      },
+      "ETFBM40TR.WA": {
+        "quantity": 85,
+        "cost_basis_pln": "14905.37"
+      },
+      "VWCE.DE": {
+        "quantity": 46,
+        "cost_basis_pln": "34796.53"
+      },
+      "4GLD.DE": {
+        "quantity": 19,
+        "cost_basis_pln": "9507.37"
+      }
+    },
+    "transactions": [
+      {
+        "trade_id": "initial-20261105-ETFBW20TR.WA",
+        "date": "2026-11-09",
+        "side": "BUY",
+        "ticker": "ETFBW20TR.WA",
+        "quantity": 172,
+        "price_pln": "86.48",
+        "gross_pln": "14874.56",
+        "fee_pln": "37.19",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025"
+      },
+      {
+        "trade_id": "initial-20261105-ETFBM40TR.WA",
+        "date": "2026-11-09",
+        "side": "BUY",
+        "ticker": "ETFBM40TR.WA",
+        "quantity": 85,
+        "price_pln": "174.92",
+        "gross_pln": "14868.20",
+        "fee_pln": "37.17",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025"
+      },
+      {
+        "trade_id": "initial-20261105-VWCE.DE",
+        "date": "2026-11-12",
+        "side": "BUY",
+        "ticker": "VWCE.DE",
+        "quantity": 46,
+        "price_pln": "754.56",
+        "gross_pln": "34709.76",
+        "fee_pln": "86.77",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025",
+        "status": "PAPER_FILL_EOD_PROXY",
+        "market": "XETRA",
+        "currency": "EUR",
+        "price_local": "171.42",
+        "quoted_at": "2026-11-12T17:35:51+01:00",
+        "fx_pln": "4.4018",
+        "fx_table": "220/A/NBP/2026",
+        "execution_guaranteed": false,
+        "price_source": "https://www.boursorama.com/bourse/trackers/cours/1zVWCE/",
+        "fx_source": "https://kursy.walut.pl/kurs/eur/2026"
+      },
+      {
+        "trade_id": "initial-20261105-4GLD.DE",
+        "date": "2026-11-13",
+        "side": "BUY",
+        "ticker": "4GLD.DE",
+        "quantity": 19,
+        "price_pln": "499.14",
+        "gross_pln": "9483.66",
+        "fee_pln": "23.71",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025",
+        "status": "PAPER_FILL_EOD_PROXY",
+        "market": "XETRA",
+        "currency": "EUR",
+        "price_local": "113.26",
+        "quoted_at": "2026-11-13T17:35:47+01:00",
+        "fx_pln": "4.4070",
+        "fx_table": "221/A/NBP/2026",
+        "execution_guaranteed": false,
+        "price_source": "https://www.marketscreener.com/quote/etf/XETRA-GOLD-ETC-EUR-746701/quotes/",
+        "fx_source": "https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/tabela-a/"
+      }
+    ]
+  },
+  "fx": {
+    "currency": "EUR",
+    "rate_pln": 4.4089,
+    "date": "2026-11-18",
+    "table": "224/A/NBP/2026",
+    "source": "https://rss.nbp.pl/kursy/TabRss.aspx?n=2026/a/26a224"
+  },
+  "quotes": [
+    {
+      "ticker": "ETFBW20TR.WA",
+      "market": "GPW",
+      "currency": "PLN",
+      "price": 87.68,
+      "quoted_at": "2026-11-18T17:01:00+01:00",
+      "source": "https://www.biznesradar.pl/notowania/ETFBW20TR"
+    },
+    {
+      "ticker": "ETFBM40TR.WA",
+      "market": "GPW",
+      "currency": "PLN",
+      "price": 173.82,
+      "quoted_at": "2026-11-18T17:01:00+01:00",
+      "source": "https://www.biznesradar.pl/notowania/ETFBM40TR"
+    },
+    {
+      "ticker": "VWCE.DE",
+      "market": "XETRA",
+      "currency": "EUR",
+      "price": 165.32,
+      "quoted_at": "2026-11-18T17:35:57+01:00",
+      "source": "https://www.boursorama.com/bourse/trackers/cours/1zVWCE/",
+      "quality_note": "Boursorama labels both NAV and last exchange. Used for valuation, not execution. Other providers show earlier intraday values."
+    },
+    {
+      "ticker": "4GLD.DE",
+      "market": "XETRA",
+      "currency": "EUR",
+      "price": 109.62,
+      "quoted_at": "2026-11-18T17:35:00+01:00",
+      "timestamp_precision": "minute; FT gives 16:35 GMT",
+      "source": "https://markets.ft.markitdigital.com/data/etfs/tearsheet/historical?s=4GLD%3AGER%3AEUR"
+    },
+    {
+      "ticker": "SXRV.DE",
+      "market": "XETRA",
+      "currency": "EUR",
+      "price": 1413.8,
+      "quoted_at": "2026-11-18T17:36:11+01:00",
+      "source": "https://sa.marketscreener.com/quote/etf/ISHARES-NASDAQ-100-UCITS--6029993/quotes/",
+      "status": "OBSERVED_NOT_FILLED"
+    }
+  ],
+  "valuation_pln": 98445.86,
+  "pnl_from_start_pln": -1554.14,
+  "pnl_percent": -1.5541,
+  "position_values_pln": [
+    15080.96,
+    14774.7,
+    33528.45,
+    9182.77
+  ],
+  "hypothetical_liquidation_equity_pln": 98264.44,
+  "benchmark": {
+    "method": "Previously reported benchmark, not a portfolio transaction. Whole units, 0.25% buy fee; no assumed exit fee",
+    "ticker": "VWCE.DE",
+    "quantity": 136,
+    "entry_date": "2026-11-06",
+    "entry_proxy_eur": 165.84,
+    "entry_fx_pln": 4.3925,
+    "entry_fee_pln": 247.67,
+    "residual_cash_pln": 682.83,
+    "value_pln": 99810.42,
+    "quality_note": "Entry inherited from prior reports. Recheck series consistently before treating relative performance as audited."
+  },
+  "decision": {
+    "side": "WAIT",
+    "new_fills": [],
+    "pending": [
+      {
+        "ticker": "SXRV.DE",
+        "target_notional_pln": 24937.5,
+        "status": "PENDING_NOT_AN_ORDER",
+        "reason": "Broad confirmation absent; Nasdaq100 US close +0.4% vs S&P500 -0.2%, Nvidia -2.9%; overlapping exposure with VWCE. No buying at yesterday's close using overnight news."
+      }
+    ],
+    "risk_alarm_pln": 90000,
+    "max_drawdown": null,
+    "review_conditions": "Reassess on next verified completed session with official FX. More broad participation supports staged entry; tech reversal supports cash. No scheduled automatic sale triggered by news alone."
+  },
+  "data_quality_notes": [
+    "Earlier reports for 17 Nov had provisional quotes (ETFBW20TR 88.18 vs later 88.22; ETFBM40TR 175.36 vs later 174.24; 4GLD 113.00 vs later 112.97; VWCE 165.54 vs Boursorama previous close 165.28). No precise daily P/L or audited drawdown calculated across inconsistent marks.",
+    "Original GPW fills lack detailed timestamp/source metadata; kept unchanged, not re-certified as verified executions."
+  ],
+  "news": [
+    {
+      "date": "2026-11-18",
+      "source": "https://www.reuters.com/business/ai-stocks-rally-nvidia-outlook-calms-demand-fears-2026-11-18/",
+      "summary": "Nvidia closed down 2.9% despite strong outlook."
+    },
+    {
+      "date": "2026-11-18",
+      "source": "https://www.ft.com/content/f085b811-fc20-425f-88d8-9f98e178636a",
+      "summary": "US S&P500 closed -0.2%; Nasdaq100 +0.4%."
+    },
+    {
+      "publication_date": "2026-11-18",
+      "event_date": "2026-11-19",
+      "source": "https://www.reuters.com/legal/transactional/anthropic-prices-blockbuster-ipo-83-share-source-says-2026-11-18/",
+      "summary": "Anthropic priced IPO at $83, raised $81.3bn; trading expected Nov19. Not a confirmed Nasdaq100 constituent or ETF holding."
+    }
+  ],
+  "disclosures": {
+    "status": "LIMITED_PUBLIC_SEARCH_NO_NEW_VERIFIED_MATERIAL_SIGNAL",
+    "note": "Limited fresh search is not exhaustive OGE/STOCK Act/Form4/13F coverage; no new verified transaction dates to report. Do not buy on delayed disclosure."
+  },
+  "news_watch": {
+    "last_visible_run": 42132963046,
+    "created_at": "2026-11-05T23:55:02Z",
+    "conclusion": "failure",
+    "artifacts": []
+  },
+  "report_type": "MORNING_CARRY_FORWARD_LAST_VERIFIED_VALUATION",
+  "valuation_asof": "2026-11-18",
+  "valuation_status": "Last verified marks retained from evening report; not new live morning quotes"
+}
