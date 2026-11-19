@@ -118,7 +118,8 @@ def main(argv=None) -> int:
             x.get("headline_only_potential_disruption", False) for x in result["topics"]
         ), "trades": 0,
     }))
-    return 0
+    # Preserve JSON diagnostics but report upstream data failures to Actions.
+    return 2 if result["status"] == "DATA_REVIEW_REQUIRED" else 0
 
 
 if __name__ == "__main__":
