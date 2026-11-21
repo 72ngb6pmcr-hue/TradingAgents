@@ -1,0 +1,254 @@
+{
+  "mode": "PAPER_ONLY",
+  "season": "2026-11-05-paper-game-100k",
+  "report_at": "2026-11-21T20:03:29+01:00",
+  "portfolio_source_blob_sha": "3d7e8297fd2af90aa0df0cd973425744f9870e84",
+  "portfolio_snapshot": {
+    "schema_version": 1,
+    "mode": "PAPER_ONLY",
+    "currency": "PLN",
+    "initial_cash_pln": "100000.00",
+    "cash_pln": "25878.98",
+    "realized_pnl_pln": "0.00",
+    "positions": {
+      "ETFBW20TR.WA": {
+        "quantity": 172,
+        "cost_basis_pln": "14911.75"
+      },
+      "ETFBM40TR.WA": {
+        "quantity": 85,
+        "cost_basis_pln": "14905.37"
+      },
+      "VWCE.DE": {
+        "quantity": 46,
+        "cost_basis_pln": "34796.53"
+      },
+      "4GLD.DE": {
+        "quantity": 19,
+        "cost_basis_pln": "9507.37"
+      }
+    },
+    "transactions": [
+      {
+        "trade_id": "initial-20261105-ETFBW20TR.WA",
+        "date": "2026-11-09",
+        "side": "BUY",
+        "ticker": "ETFBW20TR.WA",
+        "quantity": 172,
+        "price_pln": "86.48",
+        "gross_pln": "14874.56",
+        "fee_pln": "37.19",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025"
+      },
+      {
+        "trade_id": "initial-20261105-ETFBM40TR.WA",
+        "date": "2026-11-09",
+        "side": "BUY",
+        "ticker": "ETFBM40TR.WA",
+        "quantity": 85,
+        "price_pln": "174.92",
+        "gross_pln": "14868.20",
+        "fee_pln": "37.17",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025"
+      },
+      {
+        "trade_id": "initial-20261105-VWCE.DE",
+        "date": "2026-11-12",
+        "side": "BUY",
+        "ticker": "VWCE.DE",
+        "quantity": 46,
+        "price_pln": "754.56",
+        "gross_pln": "34709.76",
+        "fee_pln": "86.77",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025",
+        "status": "PAPER_FILL_EOD_PROXY",
+        "market": "XETRA",
+        "currency": "EUR",
+        "price_local": "171.42",
+        "quoted_at": "2026-11-12T17:35:51+01:00",
+        "fx_pln": "4.4018",
+        "fx_table": "220/A/NBP/2026",
+        "execution_guaranteed": false,
+        "price_source": "https://www.boursorama.com/bourse/trackers/cours/1zVWCE/",
+        "fx_source": "https://kursy.walut.pl/kurs/eur/2026"
+      },
+      {
+        "trade_id": "initial-20261105-4GLD.DE",
+        "date": "2026-11-13",
+        "side": "BUY",
+        "ticker": "4GLD.DE",
+        "quantity": 19,
+        "price_pln": "499.14",
+        "gross_pln": "9483.66",
+        "fee_pln": "23.71",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025",
+        "status": "PAPER_FILL_EOD_PROXY",
+        "market": "XETRA",
+        "currency": "EUR",
+        "price_local": "113.26",
+        "quoted_at": "2026-11-13T17:35:47+01:00",
+        "fx_pln": "4.4070",
+        "fx_table": "221/A/NBP/2026",
+        "execution_guaranteed": false,
+        "price_source": "https://www.marketscreener.com/quote/etf/XETRA-GOLD-ETC-EUR-746701/quotes/",
+        "fx_source": "https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/tabela-a/"
+      }
+    ]
+  },
+  "fx": {
+    "rate_pln": 4.4559,
+    "currency": "EUR",
+    "date": "2026-11-20",
+    "table": "226/A/NBP/2026",
+    "source": "https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/tabela-a/"
+  },
+  "quotes": [
+    {
+      "ticker": "ETFBW20TR.WA",
+      "market": "GPW",
+      "currency": "PLN",
+      "price": 83.24,
+      "quoted_at": "2026-11-20T17:01:00+01:00",
+      "source": "https://www.bankier.pl/inwestowanie/profile/quote.html?symbol=ETFBW20TR"
+    },
+    {
+      "ticker": "ETFBM40TR.WA",
+      "market": "GPW",
+      "currency": "PLN",
+      "price": 168.32,
+      "quoted_at": "2026-11-20T17:02:00+01:00",
+      "source": "https://www.bankier.pl/inwestowanie/profile/quote.html?symbol=ETFBM40TR"
+    },
+    {
+      "ticker": "VWCE.DE",
+      "market": "XETRA",
+      "currency": "EUR",
+      "price": 159.34,
+      "quoted_at": "2026-11-20T17:35:49+01:00",
+      "source": "https://www.boursorama.com/bourse/trackers/cours/1zVWCE/",
+      "quality_note": "Provider labels both NAV and last exchange. Valuation only, no execution."
+    },
+    {
+      "ticker": "4GLD.DE",
+      "market": "XETRA",
+      "currency": "EUR",
+      "price": 103.78,
+      "quoted_at": "2026-11-20T17:36:02+01:00",
+      "source": "https://www.marketscreener.com/quote/etf/XETRA-GOLD-ETC-EUR-746701/quotes/",
+      "quality_note": "Market Closed, source timestamp11:36:02am EST converted to17:36:02 Warsaw. Last quote valuation, not independently certified auction close."
+    },
+    {
+      "ticker": "SXRV.DE",
+      "market": "XETRA",
+      "currency": "EUR",
+      "price": 1342.2,
+      "quoted_at": "2026-11-20T17:35:56+01:00",
+      "source": "https://www.boursorama.com/bourse/trackers/cours/1zSXRV/",
+      "status": "OBSERVED_NOT_FILLED",
+      "quality_note": "Price available but proposal is suspended by risk decision. No backdated fill."
+    }
+  ],
+  "valuation_asof": "2026-11-20",
+  "valuation_pln": 95949.84,
+  "pnl_from_start_pln": -4050.16,
+  "pnl_percent": -4.050164386000004,
+  "position_values_pln": [
+    14317.28,
+    14307.2,
+    32660.14,
+    8786.23
+  ],
+  "change_vs_last_report_pln": 0,
+  "max_drawdown": null,
+  "max_drawdown_note": "Insufficient consistent historical NAV series; no audited maximum claimed.",
+  "benchmark": {
+    "method": "Previously reported benchmark, not a portfolio transaction. Whole units, 0.25% buy fee; no assumed exit fee",
+    "ticker": "VWCE.DE",
+    "quantity": 136,
+    "entry_date": "2026-11-06",
+    "entry_proxy_eur": 165.84,
+    "entry_fx_pln": 4.3925,
+    "entry_fee_pln": 247.67,
+    "residual_cash_pln": 682.83,
+    "value_pln": 97243.25,
+    "quality_note": "Nov 6 Xetra close and NBP FX corroborated, recomputed; EOD proxy, no hypothetical exit fee.",
+    "status": "VERIFIED_EOD_PROXY",
+    "pnl_pln": -2756.75,
+    "return_percent": -2.756747583999997,
+    "underperformance_pln": 1293.42,
+    "entry_sources": [
+      "https://pl.investing.com/etfs/vanguard-ftse-all-world-ucits-acc-historical-data?cid=1148060",
+      "https://rss.nbp.pl/kursy/TabRss.aspx?n=2026%2Fa%2F26a217"
+    ]
+  },
+  "decision": {
+    "side": "WAIT",
+    "new_fills": [],
+    "pending": [
+      {
+        "ticker": "SXRV.DE",
+        "target_notional_pln": 24937.5,
+        "status": "PENDING_PROPOSAL_SUSPENDED_NOT_ORDER",
+        "reason": "Verified dated price now available; no purchase because the prior nonbinding proposal requires review and broad stabilisation is absent. Not an irrevocable queued order."
+      }
+    ],
+    "risk_alarm_pln": 90000,
+    "alarm_active": false,
+    "risk_headroom_pln": 5949.84,
+    "review_conditions": "Keep cash and existing positions. SXRV remains a suspended proposal. Review after next verified GPW/Xetra session and dated FX; further broad deterioration calls for reassessing exposure, not automatic sale. At or below PLN 90000 freeze new risky buys.",
+    "thesis": {
+      "event": "UKMTO reports Nov 21 and US equity selloff Nov 20",
+      "mechanism": "Potential shipping disruption can raise energy costs; higher input costs and existing tech weakness argue against adding overlapping SXRV exposure",
+      "review_session": "2026-11-23",
+      "invalidation": "No lasting oil rise or transport disruption and broad tech stabilisation weaken the case for continued deferral; not an automatic entry."
+    }
+  },
+  "news": [
+    {
+      "date": "2026-11-20",
+      "source": "https://apnews.com/article/c10b797a17c2acf37924d834efebe135",
+      "summary": "US close Nasdaq Composite -5.3%, S&P 500 -3.7%; after European valuation."
+    },
+    {
+      "date": "2026-11-20",
+      "source": "https://www.reuters.com/world/us-secs-nvidia-probe-is-examining-potential-accounting-issues-sources-say-2026-11-20/",
+      "summary": "Reuters cites sources on SEC accounting scrutiny; not a finding of wrongdoing."
+    },
+    {
+      "date": "2026-11-21",
+      "source": "https://www.reuters.com/business/energy/tanker-hit-by-unknown-projectile-near-omans-khasab-ukmto-says-2026-11-21/",
+      "summary": "Two UKMTO incident reports; unclear if distinct vessels."
+    }
+  ],
+  "disclosures": {
+    "checked_on": "2026-11-21",
+    "status": "LIMITED_REVIEW_NO_MATERIAL_SIGNAL",
+    "note": "No new relevant political or corporate transaction verified from limited public review. 13F amendment filed Nov19 reports holdings as of Sept30, not dated trades.",
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1751492/000175149226000008/0001751492-26-000008-index.htm"
+    ]
+  },
+  "news_watch": {
+    "last_visible_run": 42132963046,
+    "created_at": "2026-11-05T23:55:02Z",
+    "conclusion": "failure",
+    "artifacts": [],
+    "checked_on": "2026-11-21",
+    "workflow_blob_sha": "0edb1f8cd96354b5a1b690cc7da25427af8e2a31",
+    "note": "Refetched workflow and latest5 runs; all visibleNov5 failures. Artifact endpoint total0. No fresh JSON; public news independently reviewed."
+  },
+  "data_quality_notes": [
+    "Earlier reports for 17 Nov had provisional quotes (ETFBW20TR 88.18 vs later 88.22; ETFBM40TR 175.36 vs later 174.24; 4GLD 113.00 vs later 112.97; VWCE 165.54 vs Boursorama previous close 165.28). No precise daily P/L or audited drawdown calculated across inconsistent marks.",
+    "Original GPW fills lack detailed timestamp/source metadata; kept unchanged, not re-certified as verified executions.",
+    "20Nov early/intraday pages disagreed with later dated last-session quotes. Valuation uses Bankier dated17:01/17:02, Boursorama17:35:49 and MarketScreener17:36:02; no fills. Historical benchmark still provisional."
+  ],
+  "previous_report": "paper-game/reports/2026-11-21-morning.json",
+  "valuation_note": "Saturday carry-forward of 20 November session marks, no new valuation or fills.",
+  "costs_note": "Acquisition costs include booked0.25% fees (total184.84PLN). NAV does not deduct hypothetical future sale fees, spreads or taxes. No real orders.",
+  "pnl_month_pln": -4050.16,
+  "pnl_month_note": "Edition started during November; same as inception P/L."
+}
