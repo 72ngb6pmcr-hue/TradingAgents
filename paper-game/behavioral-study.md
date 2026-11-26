@@ -1,0 +1,8 @@
+# Badanie reakcji rynku — od 26.11.2026
+Wyłącznie badanie równoległe do symulacji. Nie księguje transakcji i nie zmienia limitów portfela.
+## Hipoteza
+Po istotnej wiadomości sektorowej czekanie na potwierdzenie szerokości i trwałości ruchu poprawia wynik po kosztach względem wejścia po pierwszej reakcji.
+## Protokół v1
+- Przed obserwacją wyniku zapisz publiczne źródło, czas publikacji i rejestracji, ETF (na start SXRV na Xetrze), oczekiwany kierunek i uzasadnienie, alternatywne wyjaśnienie oraz termin oceny. Rejestruj też zdarzenia, po których wejścia nie będzie; jeden wpis na wydarzenie, bez wielokrotnego liczenia tej samej wiadomości. Przypadek Nvidii z 23–25.11 jest inspiracją, nie elementem próby.
+- Obie metody tylko long lub gotówka, ten sam budżet, pełne jednostki, FX NBP i 0,25% prowizji na stronę. D0 to pierwsze zamknięcie Xetry po rejestracji; D1, D2 itd. to kolejne sesje. A: jeśli SXRV na D0 wzrósł względem poprzedniego zamknięcia, wejście po zweryfikowanym zamknięciu D1. B: jeśli zachodzi warunek A, zamknięcie D1 jest nie niższe niż D0 i ponad połowa składników Nasdaq-100 wzrosła w ostatniej zakończonej sesji USA dostępnej przed zamknięciem D1, wejście po zamknięciu D2. Brak potwierdzenia oznacza gotówkę. Brak wiarygodnych danych oznacza nierozstrzygnięte, nie porażkę ani sukces. Nie używaj przyszłych kursów przy decyzji.
+- Zamknij oba warianty porównawczo na D5; rozlicz wynik netto w PLN względem gotówki i VWCE w tym samym oknie, pokaż koszt czekania, liczbę poprawnych par, medianę różnicy i największą stratę. Święta i różne godziny sesji uwzględniaj według rynku. Wyniki utrwalaj też dla nietrafionych przewidywań; unikaj wniosków o przewadze na małej próbie. Każdą zmianę reguł wersjonuj, stosuj tylko do nowych obserwacji.
