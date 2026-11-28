@@ -39,7 +39,13 @@ def audit(root: Path) -> dict:
                 or fx.get("date") != tx["date"]
                 or quote.get("executable") is not False
                 or not str(quote.get("source", "")).startswith("https://")
-                or not str(fx.get("source", "")).startswith("https://")
+                or not ( (fx.get("ccy") == "PLN"
+                          and fill.get("instrument_currency") == "PLN"
+                          and fx.get("pln_per_unit") == "1"
+                          and fx.get("source") == "Domestic PLN")
+                         or (fx.get("ccy") != "PLN"
+                             and fx.get("ccy") == fill.get("instrument_currency")
+                             and str(fx.get("source", "")).startswith("https://")))
                 or any(fill.get(k) != v for k, v in tx.items())):
                 invalid.append({"trade_id": tx["trade_id"], "reason": "provenance or ledger mismatch"})
         except (OSError, ValueError, TypeError, KeyError):
