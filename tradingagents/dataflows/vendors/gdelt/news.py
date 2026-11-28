@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import time
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 
@@ -28,8 +30,17 @@ def fetch_news_articles(*, query: str) -> list[dict]:
         ENDPOINT + "?" + params,
         headers={"User-Agent": "TradingAgents-paper-research/1.0"},
     )
-    with urlopen(request, timeout=15) as response:
-        data = json.load(response)
+    for attempt in range(3):
+        try:
+            with urlopen(request, timeout=15) as response:
+                data = json.load(response)
+            break
+        except (URLError, TimeoutError, json.JSONDecodeError) as exc:
+            if isinstance(exc, HTTPError) and exc.code not in (408, 429, 500, 502, 503, 504):
+                raise
+            if attempt == 2:
+                raise
+            time.sleep(2 ** attempt * 5)
     if not isinstance(data, dict) or not isinstance(data.get("articles"), list):
         raise ValueError("Invalid or missing GDELT articles list")
     articles = []
