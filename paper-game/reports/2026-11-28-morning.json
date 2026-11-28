@@ -1,0 +1,203 @@
+{
+  "report_at": "2026-11-28T07:58:19+01:00",
+  "mode": "PAPER_ONLY",
+  "portfolio_source_blob_sha": "3d7e8297fd2af90aa0df0cd973425744f9870e84",
+  "portfolio_snapshot": {
+    "schema_version": 1,
+    "mode": "PAPER_ONLY",
+    "currency": "PLN",
+    "initial_cash_pln": "100000.00",
+    "cash_pln": "25878.98",
+    "realized_pnl_pln": "0.00",
+    "positions": {
+      "ETFBW20TR.WA": {
+        "quantity": 172,
+        "cost_basis_pln": "14911.75"
+      },
+      "ETFBM40TR.WA": {
+        "quantity": 85,
+        "cost_basis_pln": "14905.37"
+      },
+      "VWCE.DE": {
+        "quantity": 46,
+        "cost_basis_pln": "34796.53"
+      },
+      "4GLD.DE": {
+        "quantity": 19,
+        "cost_basis_pln": "9507.37"
+      }
+    },
+    "transactions": [
+      {
+        "trade_id": "initial-20261105-ETFBW20TR.WA",
+        "date": "2026-11-09",
+        "side": "BUY",
+        "ticker": "ETFBW20TR.WA",
+        "quantity": 172,
+        "price_pln": "86.48",
+        "gross_pln": "14874.56",
+        "fee_pln": "37.19",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025"
+      },
+      {
+        "trade_id": "initial-20261105-ETFBM40TR.WA",
+        "date": "2026-11-09",
+        "side": "BUY",
+        "ticker": "ETFBM40TR.WA",
+        "quantity": 85,
+        "price_pln": "174.92",
+        "gross_pln": "14868.20",
+        "fee_pln": "37.17",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025"
+      },
+      {
+        "trade_id": "initial-20261105-VWCE.DE",
+        "date": "2026-11-12",
+        "side": "BUY",
+        "ticker": "VWCE.DE",
+        "quantity": 46,
+        "price_pln": "754.56",
+        "gross_pln": "34709.76",
+        "fee_pln": "86.77",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025",
+        "status": "PAPER_FILL_EOD_PROXY",
+        "market": "XETRA",
+        "currency": "EUR",
+        "price_local": "171.42",
+        "quoted_at": "2026-11-12T17:35:51+01:00",
+        "fx_pln": "4.4018",
+        "fx_table": "220/A/NBP/2026",
+        "execution_guaranteed": false,
+        "price_source": "https://www.boursorama.com/bourse/trackers/cours/1zVWCE/",
+        "fx_source": "https://kursy.walut.pl/kurs/eur/2026"
+      },
+      {
+        "trade_id": "initial-20261105-4GLD.DE",
+        "date": "2026-11-13",
+        "side": "BUY",
+        "ticker": "4GLD.DE",
+        "quantity": 19,
+        "price_pln": "499.14",
+        "gross_pln": "9483.66",
+        "fee_pln": "23.71",
+        "realized_pnl_pln": "0.00",
+        "fee_rate": "0.0025",
+        "status": "PAPER_FILL_EOD_PROXY",
+        "market": "XETRA",
+        "currency": "EUR",
+        "price_local": "113.26",
+        "quoted_at": "2026-11-13T17:35:47+01:00",
+        "fx_pln": "4.4070",
+        "fx_table": "221/A/NBP/2026",
+        "execution_guaranteed": false,
+        "price_source": "https://www.marketscreener.com/quote/etf/XETRA-GOLD-ETC-EUR-746701/quotes/",
+        "fx_source": "https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/tabela-a/"
+      }
+    ]
+  },
+  "previous_report": "paper-game/reports/2026-11-27-evening.json",
+  "valuation_status": "COMPLETE_EOD_2026_11_27",
+  "last_complete_nav_pln": 98190.19,
+  "position_values_pln": [
+    14595.92,
+    14655.7,
+    34001.34,
+    9058.25
+  ],
+  "quotes": [
+    [
+      "ETFBW20TR.WA",
+      84.86,
+      "PLN",
+      "2026-11-27 17:01",
+      "https://www.bankier.pl/etf/notowania"
+    ],
+    [
+      "ETFBM40TR.WA",
+      172.42,
+      "PLN",
+      "2026-11-27 17:01",
+      "https://www.bankier.pl/etf/notowania"
+    ],
+    [
+      "VWCE.DE",
+      165.46,
+      "EUR",
+      "2026-11-27 17:30",
+      "https://twelvedata.com/markets/762896/etf/xetr/vwce/historical-data"
+    ],
+    [
+      "4GLD.DE",
+      106.72,
+      "EUR",
+      "2026-11-27 17:36",
+      "https://markets.ft.markitdigital.com/data/etfs/tearsheet/historical?s=4GLD%3AGER%3AEUR"
+    ]
+  ],
+  "fx": {
+    "date": "2026-11-27",
+    "table": "231/A/NBP/2026",
+    "rate_pln": 4.4673
+  },
+  "benchmark": {
+    "method": "Previously reported benchmark, not a portfolio transaction. Whole units, 0.25% buy fee; no assumed exit fee",
+    "ticker": "VWCE.DE",
+    "quantity": 136,
+    "entry_date": "2026-11-06",
+    "entry_proxy_eur": 165.84,
+    "entry_fx_pln": 4.3925,
+    "entry_fee_pln": 247.67,
+    "residual_cash_pln": 682.83,
+    "value_pln": 101208.52,
+    "quality_note": "Entry cross-checked with Twelve Data and Morningstar for Xetra and official NBP table; still provisional EOD proxy pending full audit.",
+    "status": "EOD_PROXY_PROVISIONAL_PENDING_FULL_AUDIT",
+    "pnl_pln": 1208.52,
+    "return_percent": 1.20852,
+    "underperformance_pln": 3018.33,
+    "entry_sources": [
+      "https://twelvedata.com/markets/762896/etf/xetr/vwce/historical-data",
+      "https://www.morningstar.com/etfs/xetr/vwce/historical-data",
+      "https://rss.nbp.pl/kursy/TabRss.aspx?n=2026%2Fa%2F26a217"
+    ],
+    "comparison_status": "Same-date EOD 27 Nov"
+  },
+  "decision": {
+    "side": "WAIT",
+    "risk_alarm_pln": "90000.00",
+    "headroom_pln": 8190.19,
+    "fills": [],
+    "pending": [
+      {
+        "ticker": "SXRV.DE",
+        "target_notional_pln": 24937.5,
+        "status": "PENDING_PROPOSAL_SUSPENDED_NOT_ORDER",
+        "reason": "Verified dated price now available; no purchase because the prior nonbinding proposal requires review and broad stabilisation is absent. Not an irrevocable queued order."
+      }
+    ],
+    "review": "Weekend. 27 Nov closing NDX constituent breadth still unverified. Review after 30 Nov Xetra and US close. Broad rebound thesis invalid if SXRV <=1362.60 or no majority of Nasdaq-100 advancers; missing data unresolved."
+  },
+  "max_drawdown": null,
+  "news": [
+    "https://apnews.com/article/04dab6079cf7f3dfe7285a3cc1f240a2",
+    "https://www.investing.com/etfs/cs-%28ie%29-on-nasdaq-100-historical-data?cid=46049",
+    "https://www.reuters.com/business/wall-st-futures-surge-investors-return-holiday-2026-11-27/",
+    "https://www.reuters.com/business/energy/brent-trades-near-months-high-mideast-conflict-threatens-supply-2026-11-27/"
+  ],
+  "disclosures": "Limited review; no fresh supported signal; NVDA 19 Nov transaction filed 23 Nov",
+  "news_watch": {
+    "last_checked_run": 42132963046,
+    "artifacts": [],
+    "newer_run_unverified": true
+  },
+  "volatility_study": {
+    "new_events": [],
+    "results": [],
+    "note": "No prospectively registered qualifying event; do not backfill 27 Nov rebound."
+  },
+  "valuation_pln": 98190.19,
+  "pnl_pln": -1809.81,
+  "pnl_month_pln": -1809.81
+}
